@@ -100,5 +100,13 @@ public class ConverterJsonToObjectUtil {
         }
     }
     
+    public static String jsonFromUsers(List<User> users) {
+        try {
+            return new ObjectMapper().writeValueAsString(users);
+        } catch (JsonProcessingException ex) {
+           throw new InternalServerError("error serializing packages");
+        }
+    }
+    
 }   
 

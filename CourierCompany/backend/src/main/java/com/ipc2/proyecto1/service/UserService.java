@@ -4,6 +4,7 @@ import com.ipc2.proyecto1.exceptions.BadRequestException;
 import com.ipc2.proyecto1.model.User;
 import com.ipc2.proyecto1.repository.UserRepository;
 import com.ipc2.proyecto1.utils.Verifications;
+import java.util.List;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -21,9 +22,29 @@ public class UserService {
         this.userRepository = new UserRepository();
     }
 
+    public List<User> getUsers() {
+        
+        return userRepository.getUsers();
+    }
+    
+    public List<User> getUserById(int id) {
+        
+        return userRepository.getUserById(id);
+    }
+    
     public void addUser(User user) {
         isValidUser(user);
         userRepository.addUser(user);
+    }
+    
+    public void updateUser(User user) {
+        
+        userRepository.updateUser(user);
+    }
+    
+    public void deleteUserById(int id) {
+        
+        userRepository.deleteUserById(id);
     }
 
     public void isValidUser(User user) {

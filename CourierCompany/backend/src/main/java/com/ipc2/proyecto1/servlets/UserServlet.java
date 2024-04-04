@@ -16,13 +16,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
  *
  * @author carlos
  */
-@WebServlet(name = "UserServlet", urlPatterns = {"/user"})
+@WebServlet(name = "UserServlet", urlPatterns = {"/user/*"})
 public class UserServlet extends HttpServlet {
     
     private final UserService userService; 
@@ -61,7 +62,24 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        try {
+
+            if (request.getPathInfo() != null) {
+                String pathParam = request.getPathInfo().replace("/", "");
+                List<User> users = userService.getUserById(Integer.parseInt(pathParam));
+                String result = ConverterJsonToObjectUtil.jsonFromUsers(users);
+                processRequest(result, 200, response);
+            } else {
+                List<User> users = userService.getUsers();
+                String result = ConverterJsonToObjectUtil.jsonFromUsers(users);
+                processRequest(result, 200, response);
+            }
+
+        } catch (HttpException e) {
+            processRequest(e.getMessage(), e.getHttpStatus(), response);
+        } catch (Exception e) {
+            processRequest(e.getMessage(), 500, response);
+        }
     }
 
     /**
@@ -96,6 +114,64 @@ public class UserServlet extends HttpServlet {
             processRequest(e.getMessage(),500, response);
         }
        
+    }
+    
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        
+        String txtResponse = "User updated";
+        String userBody = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+        System.out.println("User body:" + userBody);
+
+        //Convert body into an object
+        User user = ConverterJsonToObjectUtil.getUser(userBody);
+        System.out.println(user.getId());
+        
+        try {
+            
+            if (request.getPathInfo() != null) {
+                String pathParam = request.getPathInfo().replace("/", "");
+                user.setId(Integer.parseInt(pathParam));
+                //List<ControlPoint> controlPoints = controlPointService.getControlPointById(Integer.parseInt(pathParam));
+                userService.updateUser(user);
+                processRequest(txtResponse, 200, response);
+            } else {
+                
+                String result = "Es necesario el id del usuario para actualizarlo";
+                processRequest(result, 400, response);
+            }
+
+        } catch (HttpException e) {
+            processRequest(e.getMessage(), e.getHttpStatus(), response);
+        } catch (Exception e) {
+            processRequest(e.getMessage(), 500, response);
+        }
+    }
+    
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        String txtResponse = "User deleted";
+        try {
+            
+            if (request.getPathInfo() != null) {
+                String pathParam = request.getPathInfo().replace("/", "");
+                userService.deleteUserById(Integer.parseInt(pathParam));
+                processRequest(txtResponse, 200, response);
+            } else {
+                
+                String result = "Es necesario el id del usuario para eliminarlo";
+                processRequest(result, 400, response);
+            }
+
+        } catch (HttpException e) {
+            processRequest(e.getMessage(), e.getHttpStatus(), response);
+        } catch (Exception e) {
+            processRequest(e.getMessage(), 500, response);
+        }
+        
     }
 
     /**

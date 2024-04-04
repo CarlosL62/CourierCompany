@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author carlos
  */
 @WebServlet(name = "PackageServlet", urlPatterns = {"/package/*"})
+//@WebServlet("/package/*")
 public class PackageServlet extends HttpServlet {
 
     private PackageService packageService;
