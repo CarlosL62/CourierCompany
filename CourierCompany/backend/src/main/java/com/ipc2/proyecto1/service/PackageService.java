@@ -35,6 +35,10 @@ public class PackageService {
         return packageRepository.getPackageById(id);
     }
     
+    public List<PackageN> getPackageByStatus(String status){
+        return packageRepository.getPackageByStatus(status);
+    }
+    
     public void isValidPackage (PackageN packagen) {
         
         /*if (!packagen.getStatus().equals("enBodega")

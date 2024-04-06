@@ -65,6 +65,12 @@ public class PackageServlet extends HttpServlet {
             throws ServletException, IOException {
 
         try {
+            String status = request.getParameter("status");
+            if (!status.equals(null)) {
+                List<PackageN> packages = packageService.getPackageByStatus(status);
+                String result = ConverterJsonToObjectUtil.jsonFromPackages(packages);
+                processRequest(result, 200, response);
+            }
             
             if (request.getPathInfo() != null) {
                 String pathParam = request.getPathInfo().replace("/", "");
@@ -115,7 +121,7 @@ public class PackageServlet extends HttpServlet {
             processRequest(e.getMessage(), 500, response);
         }
     }
-
+        
     /**
      * Returns a short description of the servlet.
      *

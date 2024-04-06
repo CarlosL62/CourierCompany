@@ -1,3 +1,4 @@
+com/ipc2/proyecto1/servlets/BillServlet.class
 com/ipc2/proyecto1/service/ControlPointService.class
 com/ipc2/proyecto1/servlets/UserServlet.class
 com/ipc2/proyecto1/model/Route.class
@@ -8,6 +9,7 @@ com/ipc2/proyecto1/utils/Verifications.class
 com/ipc2/proyecto1/model/Client.class
 com/ipc2/proyecto1/service/ClientService.class
 com/ipc2/proyecto1/utils/DataBaseUtils.class
+com/ipc2/proyecto1/service/BillService.class
 com/ipc2/proyecto1/exceptions/HttpException.class
 com/ipc2/proyecto1/service/RoutesControlPointService.class
 com/ipc2/proyecto1/model/PackageN.class
@@ -17,14 +19,20 @@ com/ipc2/proyecto1/servlets/RouteServlet.class
 com/ipc2/proyecto1/repository/RouteRepository.class
 com/ipc2/proyecto1/repository/ClientRepository.class
 com/ipc2/proyecto1/servlets/PackageServlet.class
+com/ipc2/proyecto1/model/Bill.class
+com/ipc2/proyecto1/servlets/GlobalCostsServlet.class
 com/ipc2/proyecto1/repository/RoutesControlPointRepository.class
+com/ipc2/proyecto1/service/GlobalCostService.class
 com/ipc2/proyecto1/model/ControlPoint.class
 com/ipc2/proyecto1/servlets/ClientServlet.class
 com/ipc2/proyecto1/service/RouteService.class
 com/ipc2/proyecto1/servlets/RoutesControlPointsServlet.class
+com/ipc2/proyecto1/repository/GlobalCostRepository.class
 com/ipc2/proyecto1/model/RoutesControlPoint.class
 com/ipc2/proyecto1/repository/PackageRepository.class
 com/ipc2/proyecto1/exceptions/InternalServerError.class
+com/ipc2/proyecto1/model/GlobalCost.class
+com/ipc2/proyecto1/repository/BillRepository.class
 com/ipc2/proyecto1/servlets/ControlPointServlet.class
 com/ipc2/proyecto1/utils/ConverterJsonToObjectUtil.class
 com/ipc2/proyecto1/model/Warehouse.class

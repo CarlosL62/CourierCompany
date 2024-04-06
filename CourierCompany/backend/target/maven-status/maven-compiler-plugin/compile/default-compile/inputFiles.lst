@@ -21,12 +21,16 @@
 /home/carlos/NetBeansProjects/Proyecto1IPC2/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/repository/RoutesControlPointRepository.java
 /home/carlos/NetBeansProjects/Proyecto1IPC2/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/utils/Verifications.java
 /home/carlos/NetBeansProjects/Proyecto1IPC2/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/service/ClientService.java
+/home/carlos/NetBeansProjects/Proyecto1IPC2/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/service/GlobalCostService.java
 /home/carlos/NetBeansProjects/Proyecto1IPC2/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/model/Route.java
 /home/carlos/NetBeansProjects/Proyecto1IPC2/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/servlets/RoutesControlPointsServlet.java
 /home/carlos/NetBeansProjects/Proyecto1IPC2/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/servlets/RouteServlet.java
 /home/carlos/NetBeansProjects/Proyecto1IPC2/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/servlets/ControlPointServlet.java
+/home/carlos/NetBeansProjects/Proyecto1IPC2/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/repository/GlobalCostRepository.java
 /home/carlos/NetBeansProjects/Proyecto1IPC2/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/servlets/ClientServlet.java
 /home/carlos/NetBeansProjects/Proyecto1IPC2/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/service/PackageService.java
+/home/carlos/NetBeansProjects/Proyecto1IPC2/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/servlets/GlobalCostsServlet.java
 /home/carlos/NetBeansProjects/Proyecto1IPC2/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/model/ControlPoint.java
 /home/carlos/NetBeansProjects/Proyecto1IPC2/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/servlets/UserServlet.java
+/home/carlos/NetBeansProjects/Proyecto1IPC2/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/model/GlobalCost.java
 /home/carlos/NetBeansProjects/Proyecto1IPC2/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/utils/ConverterJsonToObjectUtil.java
