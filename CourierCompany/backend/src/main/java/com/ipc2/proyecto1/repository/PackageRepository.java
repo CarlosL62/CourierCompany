@@ -81,4 +81,26 @@ public class PackageRepository {
         }
         return packages;
     }
+    
+    public List<PackageN> getPackageByStatus(String status) {
+        String query = String.format("SELECT %s FROM Packages WHERE PackageStatus = \"%s\";", String.join(",", fieldNames), status);
+        
+        List<Object[]> result = this.dataBaseUtils.select(query, fieldNames);
+
+        List<PackageN> packages = new ArrayList();
+        for (Object[] row : result) {
+
+            PackageN packageRow = new PackageN();
+            packageRow.setId((Integer) row[0]);
+            packageRow.setClientId((Integer) row[1]);
+            packageRow.setWeigth((Integer) row[2]);
+            packageRow.setDescription((String) row[3]);
+            packageRow.setStatus((String) row[4]);
+            packageRow.setBeginDate((String) row[5]);
+            packageRow.setEndDate((String) row[6]);
+
+            packages.add(packageRow);
+        }
+        return packages;
+    }
 }

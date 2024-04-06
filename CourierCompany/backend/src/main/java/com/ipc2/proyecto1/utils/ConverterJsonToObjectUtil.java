@@ -8,8 +8,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ipc2.proyecto1.exceptions.BadRequestException;
 import com.ipc2.proyecto1.exceptions.InternalServerError;
+import com.ipc2.proyecto1.model.Bill;
 import com.ipc2.proyecto1.model.Client;
 import com.ipc2.proyecto1.model.ControlPoint;
+import com.ipc2.proyecto1.model.GlobalCost;
 import com.ipc2.proyecto1.model.PackageN;
 import com.ipc2.proyecto1.model.Route;
 import com.ipc2.proyecto1.model.RoutesControlPoint;
@@ -108,5 +110,28 @@ public class ConverterJsonToObjectUtil {
         }
     }
     
+    public static GlobalCost getGlobalCost(String body) {
+        try {
+            return new ObjectMapper().readValue(body, GlobalCost.class);
+        } catch (JsonProcessingException ex) {
+            throw new BadRequestException("json invalido");
+        }
+    }
+    
+    public static String jsonFromGlobalCost(List<GlobalCost> globalCost) {
+        try {
+            return new ObjectMapper().writeValueAsString(globalCost);
+        } catch (JsonProcessingException ex) {
+           throw new InternalServerError("error serializing packages");
+        }
+    }
+    
+    public static Bill getBill(String body) {
+        try {
+            return new ObjectMapper().readValue(body, Bill.class);
+        } catch (JsonProcessingException ex) {
+            throw new BadRequestException("json invalido");
+        }
+    }
 }   
 

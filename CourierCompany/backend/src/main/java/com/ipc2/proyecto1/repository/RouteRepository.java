@@ -67,7 +67,7 @@ public class RouteRepository {
     }
     
     public void addRoute(Route route) {
-        String query = String.format("INSERT INTO Routes (destinationID, PackagesLimit) VALUES (\"%s\", \"%s\")", route.getDestinationId(), route.getPackagesLimit());
+        String query = String.format("INSERT INTO Routes (destinationID, PackagesLimit) VALUES (\"%s\", \"%s\");", route.getDestinationId(), route.getPackagesLimit());
         this.dataBaseUtils.insert(query);
         System.out.println("query:"+query);
     }
