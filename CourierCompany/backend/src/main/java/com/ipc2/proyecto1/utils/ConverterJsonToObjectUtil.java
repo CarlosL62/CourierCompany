@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ipc2.proyecto1.exceptions.BadRequestException;
 import com.ipc2.proyecto1.exceptions.InternalServerError;
 import com.ipc2.proyecto1.model.Bill;
+import com.ipc2.proyecto1.model.BillDetail;
 import com.ipc2.proyecto1.model.Client;
 import com.ipc2.proyecto1.model.ControlPoint;
 import com.ipc2.proyecto1.model.GlobalCost;
@@ -129,6 +130,14 @@ public class ConverterJsonToObjectUtil {
     public static Bill getBill(String body) {
         try {
             return new ObjectMapper().readValue(body, Bill.class);
+        } catch (JsonProcessingException ex) {
+            throw new BadRequestException("json invalido");
+        }
+    }
+    
+    public static BillDetail getBillDetail(String body) {
+        try {
+            return new ObjectMapper().readValue(body, BillDetail.class);
         } catch (JsonProcessingException ex) {
             throw new BadRequestException("json invalido");
         }

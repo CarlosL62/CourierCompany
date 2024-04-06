@@ -5,6 +5,7 @@
 package com.ipc2.proyecto1.service;
 
 import com.ipc2.proyecto1.model.Bill;
+import com.ipc2.proyecto1.model.BillDetail;
 import com.ipc2.proyecto1.repository.BillRepository;
 
 /**
@@ -22,5 +23,10 @@ public class BillService {
     public void addBill(Bill bill) {
         
         billRepository.addBill(bill);
+    }
+    
+    public void addBillDetail(BillDetail billDetail) {
+        
+        billRepository.addBillDetail(billDetail);
     }
 }
