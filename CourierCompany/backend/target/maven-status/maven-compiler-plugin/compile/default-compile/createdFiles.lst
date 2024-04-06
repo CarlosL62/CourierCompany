@@ -37,4 +37,5 @@ com/ipc2/proyecto1/servlets/ControlPointServlet.class
 com/ipc2/proyecto1/utils/ConverterJsonToObjectUtil.class
 com/ipc2/proyecto1/model/Warehouse.class
 com/ipc2/proyecto1/repository/ControlPointRepository.class
+com/ipc2/proyecto1/model/BillDetail.class
 com/ipc2/proyecto1/exceptions/BadRequestException.class

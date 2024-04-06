@@ -12,7 +12,7 @@ public class BillDetail {
     
     private int billId;
     private int packageId;
-    private int destinationId;
+    private int destinationCost;
     private int weigthCost;
 
     public int getBillId() {
@@ -31,12 +31,12 @@ public class BillDetail {
         this.packageId = packageId;
     }
 
-    public int getDestinationId() {
-        return destinationId;
+    public int getDestinationCost() {
+        return destinationCost;
     }
 
-    public void setDestinationId(int destinationId) {
-        this.destinationId = destinationId;
+    public void setDestinationCost(int destinationCost) {
+        this.destinationCost = destinationCost;
     }
 
     public int getWeigthCost() {
