@@ -10,7 +10,7 @@ import com.ipc2.proyecto1.service.ClientService;
 import com.ipc2.proyecto1.utils.ConverterJsonToObjectUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.http.HttpConnectTimeoutException;
+//import java.net.http.HttpConnectTimeoutException;
 import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

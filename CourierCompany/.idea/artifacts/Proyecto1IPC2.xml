@@ -1,6 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="exploded-ear" build-on-make="true" name="Proyecto1IPC2">
-    <output-path>$PROJECT_DIR$/out/artifacts/Proyecto1IPC2</output-path>
-    <root id="root" />
-  </artifact>
-</component>

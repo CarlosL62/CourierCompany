@@ -23,7 +23,6 @@ import javax.servlet.http.HttpServletResponse;
  * @author carlos
  */
 @WebServlet(name = "PackageServlet", urlPatterns = {"/package/*"})
-//@WebServlet("/package/*")
 public class PackageServlet extends HttpServlet {
 
     private PackageService packageService;
@@ -65,11 +64,13 @@ public class PackageServlet extends HttpServlet {
             throws ServletException, IOException {
 
         try {
+
             String status = request.getParameter("status");
-            if (!status.equals(null)) {
+            if (status != null && !status.isEmpty()) {
                 List<PackageN> packages = packageService.getPackageByStatus(status);
                 String result = ConverterJsonToObjectUtil.jsonFromPackages(packages);
                 processRequest(result, 200, response);
+                return;
             }
             
             if (request.getPathInfo() != null) {
