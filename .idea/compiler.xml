@@ -12,7 +12,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="Proyecto1IPC2" options="-endorseddirs $PROJECT_DIR$/CourierCompany/backend/target/endorsed" />
+      <module name="Proyecto1IPC2" options="" />
     </option>
   </component>
 </project>
