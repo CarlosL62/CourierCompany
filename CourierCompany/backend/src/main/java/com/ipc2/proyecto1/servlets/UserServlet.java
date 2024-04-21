@@ -67,6 +67,10 @@ public class UserServlet extends HttpServlet {
             if (request.getPathInfo() != null) {
                 String pathParam = request.getPathInfo().replace("/", "");
                 List<User> users = userService.getUserById(Integer.parseInt(pathParam));
+                if (users.isEmpty()) {
+                    processRequest("No se encontró el usuario", 404, response);
+                    return;
+                }
                 String result = ConverterJsonToObjectUtil.jsonFromUsers(users);
                 processRequest(result, 200, response);
             } else {

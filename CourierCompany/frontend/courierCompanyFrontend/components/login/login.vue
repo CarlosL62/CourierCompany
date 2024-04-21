@@ -32,33 +32,47 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+const { $api } = useNuxtApp();
+const router = useRouter();
+// import { NuxtPage } from "#build/components";
+// import { ref } from "vue";
 const dialog = ref(true);
 
 var userId = ref(""); //Reference to userId
 
 const sendUser = () => {
   console.log("Usuario ingresado:", userId.value);
-  // Aquí puedes llamar a una función que envíe el usuario a un servidor, por ejemplo
-  // enviarUsuarioAServidor(user.value);
 
-  fetch("http://localhost:8080/CourierCompany_war/user/" + userId.value, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
+  $api
+    .get("/users/" + userId.value, {
+      headers: {},
+    })
     .then((response) => {
-      if (response.ok) {
+      if (response.status === 200) {
         console.log("Usuario encontrado");
-        return response.text();
-      } else if (response.status == 404) {
+        return response.data;
+      } else if (response.status === 404) {
         console.log("No existe el usuario");
       }
     })
-    .then((responseData) => {
-      const userData = JSON.parse(responseData);
-      console.log("El usuario es un: ", userData[0].type);
+    .then((userData) => {
+      console.log("El usuario es un: ", userData.type);
+      switch (userData.type) {
+        case "administrador":
+          //this.$router.push("/pages/administrador/index");
+          navigateTo("/pages/administrador/index");
+          break;
+        case "recepcionista":
+          //this.$router.push("/pages/reception/index");
+          navigateTo("/pages/reception/index");
+          break;
+        case "operador":
+          //this.$router.push("/pages/operation/index");
+          navigateTo("/pages/operation/index");
+          break;
+        default:
+          break;
+      }
     })
     .catch((error) => {
       console.error("Error al enviar el usuario", error);
