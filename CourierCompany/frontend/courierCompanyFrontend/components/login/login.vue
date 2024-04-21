@@ -23,61 +23,77 @@
         size="large"
         variant="tonal"
         block
-        @click="sendUser"
+        @click="fetchUserData"
       >
         Log In
       </v-btn>
     </v-card>
+
+    <div v-if="showAlert" class="alert">{{ alertMessage }}</div>
   </div>
 </template>
 
 <script setup>
+import { ref } from "vue";
+
+const showAlert = ref(false);
+const alertMessage = ref("");
+
 const { $api } = useNuxtApp();
-const router = useRouter();
+//const router = useRouter();
 // import { NuxtPage } from "#build/components";
-// import { ref } from "vue";
 const dialog = ref(true);
 
-var userId = ref(""); //Reference to userId
+const userId = ref(""); //Reference to userId
 
-const sendUser = () => {
-  console.log("Usuario ingresado:", userId.value);
-
-  $api
-    .get("/users/" + userId.value, {
+async function fetchUserData() {
+  try {
+    const response = await $api.get("/users/" + userId.value, {
       headers: {},
-    })
-    .then((response) => {
-      if (response.status === 200) {
-        console.log("Usuario encontrado");
-        return response.data;
-      } else if (response.status === 404) {
-        console.log("No existe el usuario");
-      }
-    })
-    .then((userData) => {
-      console.log("El usuario es un: ", userData.type);
-      switch (userData.type) {
+    });
+
+    if (response.status === 200) {
+      console.log("Usuario encontrado");
+      const userData = response.data;
+      console.log(response.data);
+      console.log("El usuario es un: ", userData[0].type);
+
+      switch (userData[0].type) {
         case "administrador":
-          //this.$router.push("/pages/administrador/index");
-          navigateTo("/pages/administrador/index");
+          navigateTo("/administration/");
           break;
         case "recepcionista":
-          //this.$router.push("/pages/reception/index");
-          navigateTo("/pages/reception/index");
+          navigateTo("/reception/");
           break;
         case "operador":
-          //this.$router.push("/pages/operation/index");
-          navigateTo("/pages/operation/index");
+          //router.push("/operation/");
+          navigateTo("/operation/");
           break;
         default:
+          console.log("Tipo de usuario no reconocido");
           break;
       }
-    })
-    .catch((error) => {
-      console.error("Error al enviar el usuario", error);
-    });
-};
+    } else if (response.status === 404) {
+      console.log("No existe el usuario");
+      showAlert.value = true;
+      alertMessage.value = "No existe el usuario" + userId.value;
+    } else {
+      console.error(
+        "Error al obtener los datos del usuario. Estado de la respuesta:",
+        response.status
+      );
+    }
+  } catch (error) {
+    if (error.response && error.response.status === 404) {
+      console.log("No existe el usuario");
+      showAlert.value = true;
+      alertMessage.value = "No existe el usuario";
+    } else {
+      console.error("Error al enviar la solicitud:", error);
+      // Aquí podrías manejar el error de alguna manera, como mostrar un mensaje de error al usuario
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped></style>
