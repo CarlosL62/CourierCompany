@@ -40,7 +40,6 @@ const showAlert = ref(false);
 const alertMessage = ref("");
 
 const { $api } = useNuxtApp();
-//const router = useRouter();
 // import { NuxtPage } from "#build/components";
 const dialog = ref(true);
 
@@ -55,6 +54,8 @@ async function fetchUserData() {
     if (response.status === 200) {
       console.log("Usuario encontrado");
       const userData = response.data;
+      const { $locally } = useNuxtApp();
+      $locally.setItem("userData", JSON.stringify(userData));
       console.log(response.data);
       console.log("El usuario es un: ", userData[0].type);
 

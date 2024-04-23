@@ -1,7 +1,19 @@
 <template>
-  <div>Operation index</div>
+  <h1 v-if="userData">Bienvenido {{ userData[0].name }}</h1>
 </template>
 
-<script setup></script>
+<script setup>
+definePageMeta({
+  layout: "operation",
+});
 
-<style lang="scss" scoped></style>
+const { $locally } = useNuxtApp();
+const userData = $locally.getItem("userData");
+</script>
+
+<style lang="scss" scoped>
+h1 {
+  text-align: center;
+  margin-top: 100px;
+}
+</style>
