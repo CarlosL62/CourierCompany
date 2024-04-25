@@ -10,23 +10,23 @@
   </v-snackbar>
   <v-data-table
     :headers="headers"
-    :items="routesData"
+    :items="destinationsData"
     :sort-by="[{ key: 'id', order: 'asc' }]"
   >
     <template #top>
       <v-toolbar flat>
-        <v-toolbar-title>Rutas registradas</v-toolbar-title>
+        <v-toolbar-title>Destinos registrados</v-toolbar-title>
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ props }">
             <v-btn class="mb-2" color="primary" dark v-bind="props">
-              Nueva ruta
+              Nuevo destino
             </v-btn>
           </template>
           <v-card>
             <v-card-title class="text-center">
-              <span>Información de ruta</span>
+              <span>Información de destino</span>
             </v-card-title>
 
             <v-card-text>
@@ -41,14 +41,14 @@
                   </v-col>
                   <v-col cols="12" md="4" lg="6">
                     <v-text-field
-                      v-model="editedItem.destinationId"
-                      label="ID de destino"
+                      v-model="editedItem.name"
+                      label="Nombre"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" md="4" lg="6">
                     <v-text-field
-                      v-model="editedItem.packagesLimit"
-                      label="Límite de paquetes"
+                      v-model="editedItem.cost"
+                      label="Costo"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" md="4" lg="6">
@@ -88,7 +88,7 @@
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
             <v-card-title class="text-center">
-              <span>¿Estás seguro de eliminar esta ruta?</span></v-card-title
+              <span>¿Estás seguro de eliminar este destino?</span></v-card-title
             >
             <v-card-actions>
               <v-spacer></v-spacer>
@@ -126,7 +126,7 @@
 import { ref, onMounted } from "vue";
 const { $api } = useNuxtApp();
 
-const routesData = ref([]);
+const destinationsData = ref([]);
 const dialog = ref(false);
 const dialogDelete = ref(false);
 const editedItem = ref({});
@@ -141,13 +141,13 @@ const infoSnackbar = ref({
 });
 
 const editItem = (item) => {
-  editedItemIndex.value = routesData.value.indexOf(item);
+  editedItemIndex.value = destinationsData.value.indexOf(item);
   editedItem.value = Object.assign({}, item);
   dialog.value = true;
 };
 
 const deleteItem = (item) => {
-  editedItemIndex.value = routesData.value.indexOf(item);
+  editedItemIndex.value = destinationsData.value.indexOf(item);
   editedItem.value = Object.assign({}, item);
   dialogDelete.value = true;
 };
@@ -166,14 +166,14 @@ const closeAndClearDelete = () => {
 
 const headers = [
   { title: "ID", value: "id" },
-  { title: "ID de destino", value: "destinationId" },
-  { title: "Límite de paquetes", value: "packagesLimit" },
+  { title: "Nombre", value: "name" },
+  { title: "Costo", value: "cost" },
   { title: "Estado", value: "status" },
   { title: "Acciones", value: "actions", sortable: false },
 ];
 
 onMounted(() => {
-  getRoutesData();
+  getDestinationsData();
 });
 
 //Setting information for the snackbar
@@ -182,41 +182,41 @@ const showBanner = () => {
 };
 
 //Loading data
-const routeById = ref(false);
+const destinationById = ref(false);
 const loadData = () => {
-  getRouteById();
-  console.log(routeById.value);
-  if (!routeById.value) {
-    console.log("Ruta no encontrada desde método loadData");
-    createRouteData();
+  getDestinationById();
+  console.log(destinationById.value);
+  if (!destinationById.value) {
+    console.log("Destino no encontrado desde método loadData");
+    createDestinationData();
   } else {
-    console.log("Ruta encontrada desde método loadData");
-    updateRouteData();
-    routeById.value = false;
+    console.log("Destino encontrado desde método loadData");
+    updateDestinationData();
+    destinationById.value = false;
   }
 };
 
 //Getting all data from the API
-async function getRoutesData() {
+async function getDestinationsData() {
   try {
-    const response = await $api.get("/routes");
+    const response = await $api.get("/destinations");
     console.log(response.data);
 
     if (response.status === 200) {
-      console.log("Rutas encontradas");
-      routesData.value = response.data;
+      console.log("Destinos encontrados");
+      destinationsData.value = response.data;
       console.log(response.data);
     } else if (response.status === 404) {
-      console.log("No existen rutas");
+      console.log("No existen destinos");
     } else {
       console.error(
-        "Error al obtener los datos de las rutas. Estado de la respuesta:",
+        "Error al obtener los datos de los destinos. Estado de la respuesta:",
         response.status
       );
     }
   } catch (error) {
     if (error.response && error.response.status === 404) {
-      console.log("No existen rutas");
+      console.log("No existen destinos");
     } else {
       console.error("Error al enviar la solicitud:", error);
     }
@@ -224,28 +224,28 @@ async function getRoutesData() {
 }
 
 //Getting data from the API by id
-async function getRouteById() {
+async function getDestinationById() {
   if (!editedItem.value.id) {
-    routeById.value = false;
+    destinationById.value = false;
     return;
   }
 
   try {
-    const response = await $api.get("/routes/" + editedItem.value.id);
+    const response = await $api.get("/destinations/" + editedItem.value.id);
 
     if (response.status === 200) {
-      console.log("Ruta encontrada");
-      routeById.value = true;
+      console.log("Destino encontrado");
+      destinationById.value = true;
     } else {
       console.error(
-        "Error al obtener los datos de las rutas. Estado de la respuesta:",
+        "Error al obtener los datos de los destinos. Estado de la respuesta:",
         response.status
       );
     }
   } catch (error) {
     if (response.status === 404) {
-      console.log("No existe la ruta");
-      routeById.value = false;
+      console.log("No existe el destino");
+      destinationById.value = false;
     } else {
       console.error("Error al enviar la solicitud:", error);
     }
@@ -253,12 +253,12 @@ async function getRouteById() {
 }
 
 //Create data into the API
-async function createRouteData() {
+async function createDestinationData() {
   console.log(editedItem.value);
   try {
     if (
-      !editedItem.value.destinationId ||
-      !editedItem.value.packagesLimit ||
+      !editedItem.value.name ||
+      !editedItem.value.cost ||
       !editedItem.value.status
     ) {
       console.error("Hay campos vacíos");
@@ -267,34 +267,34 @@ async function createRouteData() {
       showBanner();
       return;
     }
-    const response = await $api.post("/routes/", {
-      destinationId: editedItem.value.destinationId,
-      packagesLimit: editedItem.value.packagesLimit,
+    const response = await $api.post("/destinations/", {
+      name: editedItem.value.name,
+      cost: editedItem.value.cost,
       status: editedItem.value.status,
     });
 
     if (response.status === 200) {
-      console.log("Ruta creada exitosamente");
+      console.log("Destino creado exitosamente");
       closeAndClearEdit();
-      getRoutesData();
+      getDestinationsData();
 
-      infoSnackbar.value.message = "Ruta creada exitosamente";
+      infoSnackbar.value.message = "Destino creado exitosamente";
       infoSnackbar.value.color = "success";
       showBanner();
     } else if (response.status === 404) {
-      console.log("No existe la ruta");
+      console.log("No existe el destino");
     } else {
       console.error(
-        "Error al obtener los datos de las rutas. Estado de la respuesta:",
+        "Error al obtener los datos de los destinos. Estado de la respuesta:",
         response.status
       );
     }
   } catch (error) {
     if (error.response && error.response.status === 404) {
-      console.log("No existe la ruta");
+      console.log("No existe el destino");
     } else if (error.response && error.response.status === 500) {
-      console.log("La ruta ya existe");
-      infoSnackbar.value.message = "La ruta ya existe";
+      console.log("El destino ya existe");
+      infoSnackbar.value.message = "El destino ya existe";
       infoSnackbar.value.color = "warning";
       showBanner();
     } else {
@@ -307,13 +307,13 @@ async function createRouteData() {
 }
 
 //Updating data into the API
-async function updateRouteData() {
+async function updateDestinationData() {
   console.log(editedItem.value);
   try {
     if (
       !editedItem.value.id ||
-      !editedItem.value.destinationId ||
-      !editedItem.value.packagesLimit ||
+      !editedItem.value.name ||
+      !editedItem.value.cost ||
       !editedItem.value.status
     ) {
       console.error("Hay campos vacíos");
@@ -322,31 +322,31 @@ async function updateRouteData() {
       showBanner();
       return;
     }
-    const response = await $api.put("/routes/" + editedItem.value.id, {
-      destinationId: editedItem.value.destinationId,
-      packagesLimit: editedItem.value.packagesLimit,
+    const response = await $api.put("/destinations/" + editedItem.value.id, {
+      name: editedItem.value.name,
+      cost: editedItem.value.cost,
       status: editedItem.value.status,
     });
 
     if (response.status === 200) {
-      console.log("Ruta editada exitosamente");
+      console.log("Destino editado exitosamente");
       closeAndClearEdit();
-      getRoutesData();
+      getDestinationsData();
 
-      infoSnackbar.value.message = "Ruta editada exitosamente";
+      infoSnackbar.value.message = "Destino editado exitosamente";
       infoSnackbar.value.color = "success";
       showBanner();
     } else if (response.status === 404) {
-      console.log("No existe la ruta");
+      console.log("No existe el destino");
     } else {
       console.error(
-        "Error al obtener los datos de las rutas. Estado de la respuesta:",
+        "Error al obtener los datos de los destinos. Estado de la respuesta:",
         response.status
       );
     }
   } catch (error) {
     if (error.response && error.response.status === 404) {
-      console.log("No existe la ruta");
+      console.log("No existe el destino");
     } else {
       console.error("Error al enviar la solicitud:", error);
     }
@@ -359,37 +359,37 @@ async function deleteControlPointDataById() {
   try {
     if (
       !editedItem.value.id ||
-      !editedItem.value.destinationId ||
-      !editedItem.value.packagesLimit ||
+      !editedItem.value.name ||
+      !editedItem.value.cost ||
       !editedItem.value.status
     ) {
-      console.error("No se seleccionó una ruta");
-      infoSnackbar.value.message = "No se seleccionó una ruta";
+      console.error("No se seleccionó un destino");
+      infoSnackbar.value.message = "No se seleccionó un destino";
       infoSnackbar.value.color = "warning";
       showBanner();
       return;
     }
-    const response = await $api.delete("/routes/" + editedItem.value.id);
+    const response = await $api.delete("/destinations/" + editedItem.value.id);
 
     if (response.status === 200) {
-      console.log("Ruta eliminada exitosamente");
+      console.log("Destino eliminado exitosamente");
       closeAndClearDelete();
-      getRoutesData();
+      getDestinationsData();
 
-      infoSnackbar.value.message = "Ruta eliminada exitosamente";
+      infoSnackbar.value.message = "Destino eliminado exitosamente";
       infoSnackbar.value.color = "info";
       showBanner();
     } else if (response.status === 404) {
-      console.log("No existe la ruta");
+      console.log("No existe el destino");
     } else {
       console.error(
-        "Error al obtener los datos de las rutas. Estado de la respuesta:",
+        "Error al obtener los datos de los destinos. Estado de la respuesta:",
         response.status
       );
     }
   } catch (error) {
     if (error.response && error.response.status === 404) {
-      console.log("No existe la ruta");
+      console.log("No existe el destino");
     } else {
       console.error("Error al enviar la solicitud:", error);
     }

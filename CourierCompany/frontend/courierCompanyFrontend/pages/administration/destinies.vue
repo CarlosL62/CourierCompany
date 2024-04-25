@@ -2,6 +2,7 @@
   <div>
     <h1>Destinos</h1>
   </div>
+  <AdministrationDestiniesView />
 </template>
 
 <script setup>

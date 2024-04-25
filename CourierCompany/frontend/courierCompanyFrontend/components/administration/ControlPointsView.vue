@@ -10,23 +10,23 @@
   </v-snackbar>
   <v-data-table
     :headers="headers"
-    :items="routesData"
+    :items="control_pointsData"
     :sort-by="[{ key: 'id', order: 'asc' }]"
   >
     <template #top>
       <v-toolbar flat>
-        <v-toolbar-title>Rutas registradas</v-toolbar-title>
+        <v-toolbar-title>Puntos de control registrados</v-toolbar-title>
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ props }">
             <v-btn class="mb-2" color="primary" dark v-bind="props">
-              Nueva ruta
+              Nuevo punto de control
             </v-btn>
           </template>
           <v-card>
             <v-card-title class="text-center">
-              <span>Información de ruta</span>
+              <span>Información de punto de control</span>
             </v-card-title>
 
             <v-card-text>
@@ -41,8 +41,8 @@
                   </v-col>
                   <v-col cols="12" md="4" lg="6">
                     <v-text-field
-                      v-model="editedItem.destinationId"
-                      label="ID de destino"
+                      v-model="editedItem.operatorId"
+                      label="ID del operador"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" md="4" lg="6">
@@ -52,12 +52,10 @@
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" md="4" lg="6">
-                    <v-select
-                      v-model="editedItem.status"
-                      label="Estado"
-                      :items="['activo', 'inactivo']"
-                    >
-                    </v-select>
+                    <v-text-field
+                      v-model="editedItem.operationCost"
+                      label="Costo de operación"
+                    ></v-text-field>
                   </v-col>
                 </v-row>
               </v-container>
@@ -88,7 +86,9 @@
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
             <v-card-title class="text-center">
-              <span>¿Estás seguro de eliminar esta ruta?</span></v-card-title
+              <span
+                >¿Estás seguro de eliminar este punto de control?</span
+              ></v-card-title
             >
             <v-card-actions>
               <v-spacer></v-spacer>
@@ -126,7 +126,7 @@
 import { ref, onMounted } from "vue";
 const { $api } = useNuxtApp();
 
-const routesData = ref([]);
+const control_pointsData = ref([]);
 const dialog = ref(false);
 const dialogDelete = ref(false);
 const editedItem = ref({});
@@ -141,13 +141,13 @@ const infoSnackbar = ref({
 });
 
 const editItem = (item) => {
-  editedItemIndex.value = routesData.value.indexOf(item);
+  editedItemIndex.value = control_pointsData.value.indexOf(item);
   editedItem.value = Object.assign({}, item);
   dialog.value = true;
 };
 
 const deleteItem = (item) => {
-  editedItemIndex.value = routesData.value.indexOf(item);
+  editedItemIndex.value = control_pointsData.value.indexOf(item);
   editedItem.value = Object.assign({}, item);
   dialogDelete.value = true;
 };
@@ -166,14 +166,14 @@ const closeAndClearDelete = () => {
 
 const headers = [
   { title: "ID", value: "id" },
-  { title: "ID de destino", value: "destinationId" },
+  { title: "ID del operador", value: "operatorId" },
   { title: "Límite de paquetes", value: "packagesLimit" },
-  { title: "Estado", value: "status" },
+  { title: "Costo operacional", value: "operationCost" },
   { title: "Acciones", value: "actions", sortable: false },
 ];
 
 onMounted(() => {
-  getRoutesData();
+  getControlPointData();
 });
 
 //Setting information for the snackbar
@@ -182,41 +182,41 @@ const showBanner = () => {
 };
 
 //Loading data
-const routeById = ref(false);
+const controlPointById = ref(false);
 const loadData = () => {
-  getRouteById();
-  console.log(routeById.value);
-  if (!routeById.value) {
-    console.log("Ruta no encontrada desde método loadData");
-    createRouteData();
+  getControlPointById();
+  console.log(controlPointById.value);
+  if (!controlPointById.value) {
+    console.log("Punto de control no encontrado desde método loadData");
+    createControlPointData();
   } else {
-    console.log("Ruta encontrada desde método loadData");
-    updateRouteData();
-    routeById.value = false;
+    console.log("Punto de control encontrado desde método loadData");
+    updateControlPointData();
+    controlPointById.value = false;
   }
 };
 
 //Getting all data from the API
-async function getRoutesData() {
+async function getControlPointData() {
   try {
-    const response = await $api.get("/routes");
+    const response = await $api.get("/control_points");
     console.log(response.data);
 
     if (response.status === 200) {
-      console.log("Rutas encontradas");
-      routesData.value = response.data;
+      console.log("Puntos de control encontrados");
+      control_pointsData.value = response.data;
       console.log(response.data);
     } else if (response.status === 404) {
       console.log("No existen rutas");
     } else {
       console.error(
-        "Error al obtener los datos de las rutas. Estado de la respuesta:",
+        "Error al obtener los datos de los puntos de control. Estado de la respuesta:",
         response.status
       );
     }
   } catch (error) {
     if (error.response && error.response.status === 404) {
-      console.log("No existen rutas");
+      console.log("No existen puntos de control");
     } else {
       console.error("Error al enviar la solicitud:", error);
     }
@@ -224,28 +224,28 @@ async function getRoutesData() {
 }
 
 //Getting data from the API by id
-async function getRouteById() {
+async function getControlPointById() {
   if (!editedItem.value.id) {
-    routeById.value = false;
+    controlPointById.value = false;
     return;
   }
 
   try {
-    const response = await $api.get("/routes/" + editedItem.value.id);
+    const response = await $api.get("/control_points/" + editedItem.value.id);
 
     if (response.status === 200) {
-      console.log("Ruta encontrada");
-      routeById.value = true;
+      console.log("Punto de control encontrado");
+      controlPointById.value = true;
     } else {
       console.error(
-        "Error al obtener los datos de las rutas. Estado de la respuesta:",
+        "Error al obtener los datos de los puntos de control. Estado de la respuesta:",
         response.status
       );
     }
   } catch (error) {
     if (response.status === 404) {
-      console.log("No existe la ruta");
-      routeById.value = false;
+      console.log("No existe el punto de control");
+      controlPointById.value = false;
     } else {
       console.error("Error al enviar la solicitud:", error);
     }
@@ -253,13 +253,13 @@ async function getRouteById() {
 }
 
 //Create data into the API
-async function createRouteData() {
+async function createControlPointData() {
   console.log(editedItem.value);
   try {
     if (
-      !editedItem.value.destinationId ||
+      !editedItem.value.operatorId ||
       !editedItem.value.packagesLimit ||
-      !editedItem.value.status
+      !editedItem.value.operationCost
     ) {
       console.error("Hay campos vacíos");
       infoSnackbar.value.message = "Hay campos vacíos";
@@ -267,34 +267,34 @@ async function createRouteData() {
       showBanner();
       return;
     }
-    const response = await $api.post("/routes/", {
-      destinationId: editedItem.value.destinationId,
+    const response = await $api.post("/control_points/", {
+      operatorId: editedItem.value.operatorId,
       packagesLimit: editedItem.value.packagesLimit,
-      status: editedItem.value.status,
+      operationCost: editedItem.value.operationCost,
     });
 
     if (response.status === 200) {
-      console.log("Ruta creada exitosamente");
+      console.log("Punto de control creado exitosamente");
       closeAndClearEdit();
-      getRoutesData();
+      getControlPointData();
 
-      infoSnackbar.value.message = "Ruta creada exitosamente";
+      infoSnackbar.value.message = "Punto de control creado exitosamente";
       infoSnackbar.value.color = "success";
       showBanner();
     } else if (response.status === 404) {
-      console.log("No existe la ruta");
+      console.log("No existe el punto de control");
     } else {
       console.error(
-        "Error al obtener los datos de las rutas. Estado de la respuesta:",
+        "Error al obtener los datos de los puntos de control. Estado de la respuesta:",
         response.status
       );
     }
   } catch (error) {
     if (error.response && error.response.status === 404) {
-      console.log("No existe la ruta");
+      console.log("No existe el punto de control");
     } else if (error.response && error.response.status === 500) {
-      console.log("La ruta ya existe");
-      infoSnackbar.value.message = "La ruta ya existe";
+      console.log("El punto de control ya existe");
+      infoSnackbar.value.message = "El punto de control ya existe";
       infoSnackbar.value.color = "warning";
       showBanner();
     } else {
@@ -307,14 +307,14 @@ async function createRouteData() {
 }
 
 //Updating data into the API
-async function updateRouteData() {
+async function updateControlPointData() {
   console.log(editedItem.value);
   try {
     if (
       !editedItem.value.id ||
-      !editedItem.value.destinationId ||
+      !editedItem.value.operatorId ||
       !editedItem.value.packagesLimit ||
-      !editedItem.value.status
+      !editedItem.value.operationCost
     ) {
       console.error("Hay campos vacíos");
       infoSnackbar.value.message = "Hay campos vacíos";
@@ -322,31 +322,31 @@ async function updateRouteData() {
       showBanner();
       return;
     }
-    const response = await $api.put("/routes/" + editedItem.value.id, {
-      destinationId: editedItem.value.destinationId,
+    const response = await $api.put("/control_points/" + editedItem.value.id, {
+      operatorId: editedItem.value.operatorId,
       packagesLimit: editedItem.value.packagesLimit,
-      status: editedItem.value.status,
+      operationCost: editedItem.value.operationCost,
     });
 
     if (response.status === 200) {
-      console.log("Ruta editada exitosamente");
+      console.log("Punto de control editado exitosamente");
       closeAndClearEdit();
-      getRoutesData();
+      getControlPointData();
 
-      infoSnackbar.value.message = "Ruta editada exitosamente";
+      infoSnackbar.value.message = "Punto de control editado exitosamente";
       infoSnackbar.value.color = "success";
       showBanner();
     } else if (response.status === 404) {
-      console.log("No existe la ruta");
+      console.log("No existe el punto de control");
     } else {
       console.error(
-        "Error al obtener los datos de las rutas. Estado de la respuesta:",
+        "Error al obtener los datos de los puntos de control. Estado de la respuesta:",
         response.status
       );
     }
   } catch (error) {
     if (error.response && error.response.status === 404) {
-      console.log("No existe la ruta");
+      console.log("No existe el punto de control");
     } else {
       console.error("Error al enviar la solicitud:", error);
     }
@@ -359,37 +359,39 @@ async function deleteControlPointDataById() {
   try {
     if (
       !editedItem.value.id ||
-      !editedItem.value.destinationId ||
+      !editedItem.value.operatorId ||
       !editedItem.value.packagesLimit ||
-      !editedItem.value.status
+      !editedItem.value.operationCost
     ) {
-      console.error("No se seleccionó una ruta");
-      infoSnackbar.value.message = "No se seleccionó una ruta";
+      console.error("No se seleccionó un punto de control");
+      infoSnackbar.value.message = "No se seleccionó un punto de control";
       infoSnackbar.value.color = "warning";
       showBanner();
       return;
     }
-    const response = await $api.delete("/routes/" + editedItem.value.id);
+    const response = await $api.delete(
+      "/control_points/" + editedItem.value.id
+    );
 
     if (response.status === 200) {
-      console.log("Ruta eliminada exitosamente");
+      console.log("Punto de control eliminado exitosamente");
       closeAndClearDelete();
-      getRoutesData();
+      getControlPointData();
 
-      infoSnackbar.value.message = "Ruta eliminada exitosamente";
+      infoSnackbar.value.message = "Punto de control eliminado exitosamente";
       infoSnackbar.value.color = "info";
       showBanner();
     } else if (response.status === 404) {
-      console.log("No existe la ruta");
+      console.log("No existe el punto de control");
     } else {
       console.error(
-        "Error al obtener los datos de las rutas. Estado de la respuesta:",
+        "Error al obtener los datos de los puntos de control. Estado de la respuesta:",
         response.status
       );
     }
   } catch (error) {
     if (error.response && error.response.status === 404) {
-      console.log("No existe la ruta");
+      console.log("No existe el punto de control");
     } else {
       console.error("Error al enviar la solicitud:", error);
     }
