@@ -2,7 +2,7 @@
   <div>
     <h1>Usuarios</h1>
   </div>
-  <AdministrationUsersCrud></AdministrationUsersCrud>
+  <AdministrationRoutesView />
 </template>
 
 <script setup>

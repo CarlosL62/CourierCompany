@@ -1,12 +1,8 @@
 <template>
-  <v-img
-    :width="400"
-    position="justify-center"
-    aspect-ratio="16/9"
-    cover
-    src="/images/deliveryCar.jpeg"
-  ></v-img>
-  <login></login>
+  <div class="center">
+    <v-img src="/images/deliveryCar.jpeg"></v-img>
+  </div>
+  <login />
 </template>
 
 <script setup>
@@ -15,4 +11,10 @@
 // });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.v-img {
+  display: flex;
+  justify-content: center; /* Centrado horizontal */
+  height: 45vh; /* Ajusta la altura según el viewport */
+}
+</style>

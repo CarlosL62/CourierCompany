@@ -2,6 +2,7 @@
   <div>
     <h1>Rutas</h1>
   </div>
+  <AdministrationRoutesView />
 </template>
 
 <script setup>

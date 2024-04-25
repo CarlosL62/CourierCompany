@@ -1,6 +1,6 @@
 <template>
-  <h1>Inicie Sesión</h1>
   <div>
+    <h1 id="is">Inicio de Sesión</h1>
     <v-card
       class="mx-auto pa-12 pb-8"
       elevation="8"
@@ -97,4 +97,10 @@ async function fetchUserData() {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+#is {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-top: 2rem;
+}
+</style>
