@@ -183,8 +183,8 @@ const showBanner = () => {
 
 //Loading data
 const controlPointById = ref(false);
-const loadData = () => {
-  getControlPointById();
+const loadData = async () => {
+  await getControlPointById();
   console.log(controlPointById.value);
   if (!controlPointById.value) {
     console.log("Punto de control no encontrado desde método loadData");

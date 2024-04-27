@@ -44,7 +44,7 @@ const links = [
   // { name: "Destinos", link: "/administration/destinies" },
   // { name: "Tarifas globales", link: "/administration/globalCosts" },
   { name: "Paquetes", link: "" },
-  { name: "Clientes", link: "" },
+  { name: "Clientes", link: "/reception/clients" },
 ];
 </script>
 

@@ -18,12 +18,27 @@
         <v-toolbar-title>Destinos registrados</v-toolbar-title>
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
+
+        <v-btn
+          class="mb-2"
+          color="primary"
+          dark
+          @click="
+            () => {
+              dialog = true;
+              editedItemIndex = -1;
+              editedItem = {};
+            }
+          "
+        >
+          Nuevo destino
+        </v-btn>
         <v-dialog v-model="dialog" max-width="500px">
-          <template v-slot:activator="{ props }">
+          <!-- <template v-slot:activator="{ props }">
             <v-btn class="mb-2" color="primary" dark v-bind="props">
               Nuevo destino
             </v-btn>
-          </template>
+          </template> -->
           <v-card>
             <v-card-title class="text-center">
               <span>Información de destino</span>
@@ -183,8 +198,8 @@ const showBanner = () => {
 
 //Loading data
 const destinationById = ref(false);
-const loadData = () => {
-  getDestinationById();
+const loadData = async () => {
+  await getDestinationById();
   console.log(destinationById.value);
   if (!destinationById.value) {
     console.log("Destino no encontrado desde método loadData");
@@ -226,6 +241,7 @@ async function getDestinationsData() {
 //Getting data from the API by id
 async function getDestinationById() {
   if (!editedItem.value.id) {
+    console.log("no existe, se va a crear");
     destinationById.value = false;
     return;
   }
@@ -236,6 +252,7 @@ async function getDestinationById() {
     if (response.status === 200) {
       console.log("Destino encontrado");
       destinationById.value = true;
+      console.log("si existe");
     } else {
       console.error(
         "Error al obtener los datos de los destinos. Estado de la respuesta:",

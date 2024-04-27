@@ -1,13 +1,13 @@
 <template>
   <div>
-    <h1>Tarifas globales</h1>
+    <h1>Clientes</h1>
   </div>
-  <AdministrationGlobalCostsView />
+  <ReceptionClientsView />
 </template>
 
 <script setup>
 definePageMeta({
-  layout: "administration",
+  layout: "reception",
 });
 </script>
 

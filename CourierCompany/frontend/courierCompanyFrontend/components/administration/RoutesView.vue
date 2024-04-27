@@ -183,8 +183,8 @@ const showBanner = () => {
 
 //Loading data
 const routeById = ref(false);
-const loadData = () => {
-  getRouteById();
+const loadData = async () => {
+  await getRouteById();
   console.log(routeById.value);
   if (!routeById.value) {
     console.log("Ruta no encontrada desde método loadData");
