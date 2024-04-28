@@ -1,14 +1,13 @@
 <template>
   <div>
-    <h1>Rutas</h1>
+    <h1>Paquetes</h1>
   </div>
-  <AdministrationRoutesView />
-  <AdministrationRoutesControlPointsView />
+  <ReceptionPackagesView />
 </template>
 
 <script setup>
 definePageMeta({
-  layout: "administration",
+  layout: "reception",
 });
 </script>
 

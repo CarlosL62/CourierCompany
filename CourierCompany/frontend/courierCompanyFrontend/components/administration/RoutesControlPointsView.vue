@@ -10,23 +10,23 @@
   </v-snackbar>
   <v-data-table
     :headers="headers"
-    :items="usersData"
+    :items="routesControlPointsData"
     :sort-by="[{ key: 'id', order: 'asc' }]"
   >
     <template #top>
       <v-toolbar flat>
-        <v-toolbar-title>Usuarios registrados</v-toolbar-title>
+        <v-toolbar-title>Puntos de control por ruta</v-toolbar-title>
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ props }">
             <v-btn class="mb-2" color="primary" dark v-bind="props">
-              Nuevo usuario
+              Añadir
             </v-btn>
           </template>
           <v-card>
             <v-card-title class="text-center">
-              <span>Información de usuario</span>
+              <span>Añadir punto de control</span>
             </v-card-title>
 
             <v-card-text>
@@ -34,32 +34,15 @@
                 <v-row>
                   <v-col cols="12" md="4" lg="6">
                     <v-text-field
-                      v-model="editedItem.id"
-                      :disabled="editedItemIndex !== -1"
-                      label="ID"
+                      v-model="editedItem.routeId"
+                      label="RutaID"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" md="4" lg="6">
                     <v-text-field
-                      v-model="editedItem.name"
-                      label="Nombre"
+                      v-model="editedItem.controlPointId"
+                      label="PuntoDeControlID"
                     ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="4" lg="6">
-                    <v-select
-                      v-model="editedItem.type"
-                      label="Tipo"
-                      :items="['administrador', 'recepcionista', 'operador']"
-                    >
-                    </v-select>
-                  </v-col>
-                  <v-col cols="12" md="4" lg="6">
-                    <v-select
-                      v-model="editedItem.status"
-                      label="Estado"
-                      :items="['activo', 'inactivo']"
-                    >
-                    </v-select>
                   </v-col>
                 </v-row>
               </v-container>
@@ -90,7 +73,9 @@
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
             <v-card-title class="text-center">
-              <span>¿Estás seguro de eliminar este usuario?</span></v-card-title
+              <span
+                >¿Estás seguro de eliminar esta relación?</span
+              ></v-card-title
             >
             <v-card-actions>
               <v-spacer></v-spacer>
@@ -103,7 +88,7 @@
               <v-btn
                 color="blue-darken-1"
                 variant="text"
-                @click="deleteUserDataById"
+                @click="deleteRouteControlPointData"
                 >OK</v-btn
               >
               <v-spacer></v-spacer>
@@ -113,9 +98,6 @@
       </v-toolbar>
     </template>
     <template v-slot:item.actions="{ item }">
-      <v-icon class="me-2" size="small" @click="editItem(item)">
-        mdi-pencil
-      </v-icon>
       <v-icon size="small" @click="deleteItem(item)"> mdi-delete </v-icon>
     </template>
     <template v-slot:no-data>
@@ -128,7 +110,7 @@
 import { ref, onMounted } from "vue";
 const { $api } = useNuxtApp();
 
-const usersData = ref([]);
+const routesControlPointsData = ref([]);
 const dialog = ref(false);
 const dialogDelete = ref(false);
 const editedItem = ref({});
@@ -143,14 +125,13 @@ const infoSnackbar = ref({
 });
 
 const editItem = (item) => {
-  editedItemIndex.value = usersData.value.indexOf(item);
+  editedItemIndex.value = routesControlPointsData.value.indexOf(item);
   editedItem.value = Object.assign({}, item);
-  console.log(editedItem.value);
   dialog.value = true;
 };
 
 const deleteItem = (item) => {
-  editedItemIndex.value = usersData.value.indexOf(item);
+  editedItemIndex.value = routesControlPointsData.value.indexOf(item);
   editedItem.value = Object.assign({}, item);
   dialogDelete.value = true;
 };
@@ -168,15 +149,13 @@ const closeAndClearDelete = () => {
 };
 
 const headers = [
-  { title: "ID", value: "id" },
-  { title: "Nombre", value: "name" },
-  { title: "Tipo", value: "type" },
-  { title: "Estado", value: "status" },
+  { title: "ID de ruta", value: "routeId" },
+  { title: "ID de punto de control", value: "controlPointId" },
   { title: "Acciones", value: "actions", sortable: false },
 ];
 
 onMounted(() => {
-  getUsersData();
+  getRoutesControlPointsData();
 });
 
 //Setting information for the snackbar
@@ -185,41 +164,43 @@ const showBanner = () => {
 };
 
 //Loading data
-const userById = ref(false);
+const routeControlPointById = ref(false);
 const loadData = async () => {
-  await getUserDataById();
-  console.log(userById.value);
-  if (!userById.value) {
-    console.log("Usuario no encontrado desde método loadData");
-    createUserData();
+  await getRouteControlPointById();
+  console.log(routeControlPointById.value);
+  if (!routeControlPointById.value) {
+    console.log("Relación no encontrada desde método loadData");
+    createRouteControlPointData();
   } else {
-    console.log("Usuario encontrado desde método loadData");
-    updateUserData();
-    userById.value = false;
+    console.log("Relación encontrada desde método loadData");
+    infoSnackbar.value.message = "La relación ya existe";
+    infoSnackbar.value.color = "info";
+    showBanner();
+    routeControlPointById.value = false;
   }
 };
 
 //Getting all data from the API
-async function getUsersData() {
+async function getRoutesControlPointsData() {
   try {
-    const response = await $api.get("/users");
+    const response = await $api.get("/routes_control_points");
     console.log(response.data);
 
     if (response.status === 200) {
-      console.log("Usuarios encontrados");
-      usersData.value = response.data;
+      console.log("Relaciones encontradas");
+      routesControlPointsData.value = response.data;
       console.log(response.data);
     } else if (response.status === 404) {
-      console.log("No existen usuarios");
+      console.log("No existen relaciones");
     } else {
       console.error(
-        "Error al obtener los datos de los usuarios. Estado de la respuesta:",
+        "Error al obtener los datos de las relaciones. Estado de la respuesta:",
         response.status
       );
     }
   } catch (error) {
     if (error.response && error.response.status === 404) {
-      console.log("No existen usuarios");
+      console.log("No existen relaciones");
     } else {
       console.error("Error al enviar la solicitud:", error);
     }
@@ -227,23 +208,35 @@ async function getUsersData() {
 }
 
 //Getting data from the API by id
-async function getUserDataById() {
+async function getRouteControlPointById() {
+  console.log(editedItem.value);
+  if (!editedItem.value.routeId || !editedItem.value.controlPointId) {
+    routeControlPointById.value = false;
+    return;
+  }
+
   try {
-    const response = await $api.get("/users/" + editedItem.value.id);
+    const response = await $api.get(
+      "/routes_control_points" +
+        "?route_id=" +
+        editedItem.value.routeId +
+        "&control_point_id=" +
+        editedItem.value.controlPointId
+    );
 
     if (response.status === 200) {
-      console.log("Usuario encontrado");
-      userById.value = true;
+      console.log("Relación encontrada");
+      routeControlPointById.value = true;
     } else {
       console.error(
-        "Error al obtener los datos de los usuarios. Estado de la respuesta:",
+        "Error al obtener los datos de las relación. Estado de la respuesta:",
         response.status
       );
     }
   } catch (error) {
     if (error.response.status === 404) {
-      console.log("No existe el usuario");
-      userById.value = false;
+      console.log("No existe la ruta");
+      routeControlPointById.value = false;
     } else {
       console.error("Error al enviar la solicitud:", error);
     }
@@ -251,50 +244,43 @@ async function getUserDataById() {
 }
 
 //Create data into the API
-async function createUserData() {
+async function createRouteControlPointData() {
   console.log(editedItem.value);
   try {
-    if (
-      !editedItem.value.id ||
-      !editedItem.value.name ||
-      !editedItem.value.type ||
-      !editedItem.value.status
-    ) {
+    if (!editedItem.value.routeId || !editedItem.value.controlPointId) {
       console.error("Hay campos vacíos");
       infoSnackbar.value.message = "Hay campos vacíos";
       infoSnackbar.value.color = "warning";
       showBanner();
       return;
     }
-    const response = await $api.post("/users", {
-      id: editedItem.value.id,
-      name: editedItem.value.name,
-      type: editedItem.value.type,
-      status: editedItem.value.status,
+    const response = await $api.post("/routes_control_points", {
+      routeId: editedItem.value.routeId,
+      controlPointId: editedItem.value.controlPointId,
     });
 
     if (response.status === 200) {
-      console.log("Usuario creado exitosamente");
+      console.log("Relación creada exitosamente");
       closeAndClearEdit();
-      getUsersData();
+      getRoutesControlPointsData();
 
-      infoSnackbar.value.message = "Usuario creado exitosamente";
+      infoSnackbar.value.message = "Relación creada exitosamente";
       infoSnackbar.value.color = "success";
       showBanner();
     } else if (response.status === 404) {
-      console.log("No existe el usuario");
+      console.log("No existe la ruta");
     } else {
       console.error(
-        "Error al obtener los datos de los usuarios. Estado de la respuesta:",
+        "Error al obtener los datos de las relaiciones. Estado de la respuesta:",
         response.status
       );
     }
   } catch (error) {
     if (error.response && error.response.status === 404) {
-      console.log("No existe el usuario");
+      console.log("No existe la relación");
     } else if (error.response && error.response.status === 500) {
-      console.log("El usuario ya existe");
-      infoSnackbar.value.message = "El usuario ya existe";
+      console.log("La relación ya existe");
+      infoSnackbar.value.message = "La relación ya existe";
       infoSnackbar.value.color = "warning";
       showBanner();
     } else {
@@ -306,90 +292,45 @@ async function createUserData() {
   }
 }
 
-//Updating data into the API
-async function updateUserData() {
-  console.log(editedItem.value);
-  try {
-    if (
-      !editedItem.value.id ||
-      !editedItem.value.name ||
-      !editedItem.value.type ||
-      !editedItem.value.status
-    ) {
-      console.error("Hay campos vacíos");
-      infoSnackbar.value.message = "Hay campos vacíos";
-      infoSnackbar.value.color = "warning";
-      showBanner();
-      return;
-    }
-    const response = await $api.put("/users/" + editedItem.value.id, {
-      name: editedItem.value.name,
-      type: editedItem.value.type,
-      status: editedItem.value.status,
-    });
-
-    if (response.status === 200) {
-      console.log("Usuario editado exitosamente");
-      closeAndClearEdit();
-      getUsersData();
-
-      infoSnackbar.value.message = "Usuario editado exitosamente";
-      infoSnackbar.value.color = "success";
-      showBanner();
-    } else if (response.status === 404) {
-      console.log("No existe el usuario");
-    } else {
-      console.error(
-        "Error al obtener los datos de los usuarios. Estado de la respuesta:",
-        response.status
-      );
-    }
-  } catch (error) {
-    if (error.response && error.response.status === 404) {
-      console.log("No existe el usuario");
-    } else {
-      console.error("Error al enviar la solicitud:", error);
-    }
-  }
-}
-
 //Deleting data into the API
-async function deleteUserDataById() {
+async function deleteRouteControlPointData() {
   console.log(editedItem.value);
   try {
-    if (
-      !editedItem.value.id ||
-      !editedItem.value.name ||
-      !editedItem.value.type ||
-      !editedItem.value.status
-    ) {
-      console.error("No se seleccionó un usuario");
-      infoSnackbar.value.message = "No se seleccionó un usuario";
+    if (!editedItem.value.routeId || !editedItem.value.controlPointId) {
+      console.error("No se seleccionó una relación");
+      infoSnackbar.value.message = "No se seleccionó una relación";
       infoSnackbar.value.color = "warning";
       showBanner();
       return;
     }
-    const response = await $api.delete("/users/" + editedItem.value.id);
+
+    const response = await $api.delete(
+      "/routes_control_points" +
+        "?route_id=" +
+        editedItem.value.routeId +
+        "&control_point_id=" +
+        editedItem.value.controlPointId
+    );
 
     if (response.status === 200) {
-      console.log("Usuario eliminado exitosamente");
+      console.log("Relación eliminada exitosamente");
       closeAndClearDelete();
-      getUsersData();
+      getRoutesControlPointsData();
 
-      infoSnackbar.value.message = "Usuario eliminado exitosamente";
+      infoSnackbar.value.message = "Relación eliminada exitosamente";
       infoSnackbar.value.color = "info";
       showBanner();
     } else if (response.status === 404) {
-      console.log("No existe el usuario");
+      console.log("No existe la ruta");
     } else {
       console.error(
-        "Error al obtener los datos de los usuarios. Estado de la respuesta:",
+        "Error al obtener los datos de las rutas. Estado de la respuesta:",
         response.status
       );
     }
   } catch (error) {
     if (error.response && error.response.status === 404) {
-      console.log("No existe el usuario");
+      console.log("No existe la ruta");
     } else {
       console.error("Error al enviar la solicitud:", error);
     }

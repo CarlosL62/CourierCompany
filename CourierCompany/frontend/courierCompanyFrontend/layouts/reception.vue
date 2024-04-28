@@ -43,7 +43,7 @@ const links = [
   // { name: "Puntos de control", link: "/administration/controlPoints" },
   // { name: "Destinos", link: "/administration/destinies" },
   // { name: "Tarifas globales", link: "/administration/globalCosts" },
-  { name: "Paquetes", link: "" },
+  { name: "Paquetes", link: "/reception/packages" },
   { name: "Clientes", link: "/reception/clients" },
 ];
 </script>

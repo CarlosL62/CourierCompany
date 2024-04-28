@@ -10,23 +10,23 @@
   </v-snackbar>
   <v-data-table
     :headers="headers"
-    :items="usersData"
+    :items="packagesData"
     :sort-by="[{ key: 'id', order: 'asc' }]"
   >
     <template #top>
       <v-toolbar flat>
-        <v-toolbar-title>Usuarios registrados</v-toolbar-title>
+        <v-toolbar-title>Paquetes registrados</v-toolbar-title>
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ props }">
             <v-btn class="mb-2" color="primary" dark v-bind="props">
-              Nuevo usuario
+              Nuevo paquete
             </v-btn>
           </template>
           <v-card>
             <v-card-title class="text-center">
-              <span>Información de usuario</span>
+              <span>Información de paquete</span>
             </v-card-title>
 
             <v-card-text>
@@ -35,31 +35,55 @@
                   <v-col cols="12" md="4" lg="6">
                     <v-text-field
                       v-model="editedItem.id"
-                      :disabled="editedItemIndex !== -1"
+                      :disabled="true"
                       label="ID"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" md="4" lg="6">
                     <v-text-field
-                      v-model="editedItem.name"
-                      label="Nombre"
+                      v-model="editedItem.clientId"
+                      :disabled="editedItemIndex !== -1"
+                      label="ClienteID"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" md="4" lg="6">
                     <v-select
-                      v-model="editedItem.type"
-                      label="Tipo"
-                      :items="['administrador', 'recepcionista', 'operador']"
+                      v-model="editedItem.status"
+                      :disabled="editedItemIndex === -1"
+                      label="Estado"
+                      :items="['enBodega', 'enRuta', 'enDestino', 'entregado']"
                     >
                     </v-select>
                   </v-col>
                   <v-col cols="12" md="4" lg="6">
-                    <v-select
-                      v-model="editedItem.status"
-                      label="Estado"
-                      :items="['activo', 'inactivo']"
-                    >
-                    </v-select>
+                    <v-text-field
+                      v-model="editedItem.weigth"
+                      :disabled="editedItemIndex !== -1"
+                      label="Peso"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="4" lg="12">
+                    <v-textarea
+                      v-model="editedItem.description"
+                      label="Descripción"
+                      :disabled="editedItemIndex !== -1"
+                      :rows="3"
+                      :input-props="{ autoGrow: false }"
+                    ></v-textarea>
+                  </v-col>
+                  <v-col cols="12" md="4" lg="6">
+                    <v-text-field
+                      v-model="editedItem.beginDate"
+                      :disabled="editedItemIndex !== -1"
+                      label="Fecha de entrada"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="4" lg="6">
+                    <v-text-field
+                      v-model="editedItem.endDate"
+                      :disabled="editedItemIndex === -1"
+                      label="Fecha de entrega"
+                    ></v-text-field>
                   </v-col>
                 </v-row>
               </v-container>
@@ -87,36 +111,12 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-        <v-dialog v-model="dialogDelete" max-width="500px">
-          <v-card>
-            <v-card-title class="text-center">
-              <span>¿Estás seguro de eliminar este usuario?</span></v-card-title
-            >
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn
-                color="blue-darken-1"
-                variant="text"
-                @click="closeAndClearDelete"
-                >Cancelar</v-btn
-              >
-              <v-btn
-                color="blue-darken-1"
-                variant="text"
-                @click="deleteUserDataById"
-                >OK</v-btn
-              >
-              <v-spacer></v-spacer>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
       </v-toolbar>
     </template>
     <template v-slot:item.actions="{ item }">
       <v-icon class="me-2" size="small" @click="editItem(item)">
         mdi-pencil
       </v-icon>
-      <v-icon size="small" @click="deleteItem(item)"> mdi-delete </v-icon>
     </template>
     <template v-slot:no-data>
       <v-btn color="primary" @click="initialize"> Reset </v-btn>
@@ -128,7 +128,7 @@
 import { ref, onMounted } from "vue";
 const { $api } = useNuxtApp();
 
-const usersData = ref([]);
+const packagesData = ref([]);
 const dialog = ref(false);
 const dialogDelete = ref(false);
 const editedItem = ref({});
@@ -143,16 +143,10 @@ const infoSnackbar = ref({
 });
 
 const editItem = (item) => {
-  editedItemIndex.value = usersData.value.indexOf(item);
+  editedItemIndex.value = packagesData.value.indexOf(item);
   editedItem.value = Object.assign({}, item);
   console.log(editedItem.value);
   dialog.value = true;
-};
-
-const deleteItem = (item) => {
-  editedItemIndex.value = usersData.value.indexOf(item);
-  editedItem.value = Object.assign({}, item);
-  dialogDelete.value = true;
 };
 
 const closeAndClearEdit = () => {
@@ -161,22 +155,19 @@ const closeAndClearEdit = () => {
   editedItem.value = {};
 };
 
-const closeAndClearDelete = () => {
-  dialogDelete.value = false;
-  editedItemIndex.value = -1;
-  editedItem.value = {};
-};
-
 const headers = [
   { title: "ID", value: "id" },
-  { title: "Nombre", value: "name" },
-  { title: "Tipo", value: "type" },
+  { title: "Nombre", value: "clientId" },
   { title: "Estado", value: "status" },
+  { title: "Peso", value: "weigth" },
+  { title: "descripcion", value: "description" },
+  { title: "Fecha de entrada", value: "beginDate" },
+  { title: "Fecha de entrega", value: "endDate" },
   { title: "Acciones", value: "actions", sortable: false },
 ];
 
 onMounted(() => {
-  getUsersData();
+  getPackagesData();
 });
 
 //Setting information for the snackbar
@@ -185,41 +176,41 @@ const showBanner = () => {
 };
 
 //Loading data
-const userById = ref(false);
+const packageById = ref(false);
 const loadData = async () => {
-  await getUserDataById();
-  console.log(userById.value);
-  if (!userById.value) {
-    console.log("Usuario no encontrado desde método loadData");
-    createUserData();
+  await getPackageDataById();
+  console.log(packageById.value);
+  if (!packageById.value) {
+    console.log("paquete no encontrado desde método loadData");
+    createPackageData();
   } else {
-    console.log("Usuario encontrado desde método loadData");
-    updateUserData();
-    userById.value = false;
+    console.log("paquete encontrado desde método loadData");
+    updatePackageData();
+    packageById.value = false;
   }
 };
 
 //Getting all data from the API
-async function getUsersData() {
+async function getPackagesData() {
   try {
-    const response = await $api.get("/users");
+    const response = await $api.get("/packages");
     console.log(response.data);
 
     if (response.status === 200) {
-      console.log("Usuarios encontrados");
-      usersData.value = response.data;
+      console.log("Paquetes encontrados");
+      packagesData.value = response.data;
       console.log(response.data);
     } else if (response.status === 404) {
-      console.log("No existen usuarios");
+      console.log("No existen Paquetes");
     } else {
       console.error(
-        "Error al obtener los datos de los usuarios. Estado de la respuesta:",
+        "Error al obtener los datos de los Paquetes. Estado de la respuesta:",
         response.status
       );
     }
   } catch (error) {
     if (error.response && error.response.status === 404) {
-      console.log("No existen usuarios");
+      console.log("No existen Paquetes");
     } else {
       console.error("Error al enviar la solicitud:", error);
     }
@@ -227,23 +218,28 @@ async function getUsersData() {
 }
 
 //Getting data from the API by id
-async function getUserDataById() {
+async function getPackageDataById() {
+  if (!editedItem.value.id) {
+    console.log("No se ha seleccionado un paquete");
+    return;
+  }
+
   try {
-    const response = await $api.get("/users/" + editedItem.value.id);
+    const response = await $api.get("/packages/" + editedItem.value.id);
 
     if (response.status === 200) {
-      console.log("Usuario encontrado");
-      userById.value = true;
+      console.log("paquete encontrado");
+      packageById.value = true;
     } else {
       console.error(
-        "Error al obtener los datos de los usuarios. Estado de la respuesta:",
+        "Error al obtener los datos de los Paquetes. Estado de la respuesta:",
         response.status
       );
     }
   } catch (error) {
     if (error.response.status === 404) {
-      console.log("No existe el usuario");
-      userById.value = false;
+      console.log("No existe el paquete");
+      packageById.value = false;
     } else {
       console.error("Error al enviar la solicitud:", error);
     }
@@ -251,14 +247,14 @@ async function getUserDataById() {
 }
 
 //Create data into the API
-async function createUserData() {
+async function createPackageData() {
   console.log(editedItem.value);
   try {
     if (
-      !editedItem.value.id ||
-      !editedItem.value.name ||
-      !editedItem.value.type ||
-      !editedItem.value.status
+      !editedItem.value.clientId ||
+      !editedItem.value.weigth ||
+      !editedItem.value.description ||
+      !editedItem.value.beginDate
     ) {
       console.error("Hay campos vacíos");
       infoSnackbar.value.message = "Hay campos vacíos";
@@ -266,35 +262,36 @@ async function createUserData() {
       showBanner();
       return;
     }
-    const response = await $api.post("/users", {
-      id: editedItem.value.id,
-      name: editedItem.value.name,
-      type: editedItem.value.type,
+    const response = await $api.post("/packages", {
+      clientId: editedItem.value.clientId,
       status: editedItem.value.status,
+      weigth: editedItem.value.weigth,
+      description: editedItem.value.description,
+      beginDate: editedItem.value.beginDate,
     });
 
     if (response.status === 200) {
-      console.log("Usuario creado exitosamente");
+      console.log("paquete creado exitosamente");
       closeAndClearEdit();
-      getUsersData();
+      getPackagesData();
 
-      infoSnackbar.value.message = "Usuario creado exitosamente";
+      infoSnackbar.value.message = "paquete creado exitosamente";
       infoSnackbar.value.color = "success";
       showBanner();
     } else if (response.status === 404) {
-      console.log("No existe el usuario");
+      console.log("No existe el paquete");
     } else {
       console.error(
-        "Error al obtener los datos de los usuarios. Estado de la respuesta:",
+        "Error al obtener los datos de los Paquetes. Estado de la respuesta:",
         response.status
       );
     }
   } catch (error) {
     if (error.response && error.response.status === 404) {
-      console.log("No existe el usuario");
+      console.log("No existe el paquete");
     } else if (error.response && error.response.status === 500) {
-      console.log("El usuario ya existe");
-      infoSnackbar.value.message = "El usuario ya existe";
+      console.log("El paquete ya existe");
+      infoSnackbar.value.message = "El paquete ya existe";
       infoSnackbar.value.color = "warning";
       showBanner();
     } else {
@@ -307,14 +304,17 @@ async function createUserData() {
 }
 
 //Updating data into the API
-async function updateUserData() {
+async function updatePackageData() {
   console.log(editedItem.value);
   try {
     if (
       !editedItem.value.id ||
-      !editedItem.value.name ||
-      !editedItem.value.type ||
-      !editedItem.value.status
+      !editedItem.value.clientId ||
+      !editedItem.value.status ||
+      !editedItem.value.weigth ||
+      !editedItem.value.description ||
+      !editedItem.value.beginDate ||
+      !editedItem.value.endDate
     ) {
       console.error("Hay campos vacíos");
       infoSnackbar.value.message = "Hay campos vacíos";
@@ -322,31 +322,34 @@ async function updateUserData() {
       showBanner();
       return;
     }
-    const response = await $api.put("/users/" + editedItem.value.id, {
-      name: editedItem.value.name,
-      type: editedItem.value.type,
+    const response = await $api.put("/packages/" + editedItem.value.id, {
+      clientId: editedItem.value.clientId,
       status: editedItem.value.status,
+      weigth: editedItem.value.weigth,
+      description: editedItem.value.description,
+      beginDate: editedItem.value.beginDate,
+      endDate: editedItem.value.endDate,
     });
 
     if (response.status === 200) {
-      console.log("Usuario editado exitosamente");
+      console.log("paquete editado exitosamente");
       closeAndClearEdit();
-      getUsersData();
+      getPackagesData();
 
-      infoSnackbar.value.message = "Usuario editado exitosamente";
+      infoSnackbar.value.message = "paquete editado exitosamente";
       infoSnackbar.value.color = "success";
       showBanner();
     } else if (response.status === 404) {
-      console.log("No existe el usuario");
+      console.log("No existe el paquete");
     } else {
       console.error(
-        "Error al obtener los datos de los usuarios. Estado de la respuesta:",
+        "Error al obtener los datos de los Paquetes. Estado de la respuesta:",
         response.status
       );
     }
   } catch (error) {
     if (error.response && error.response.status === 404) {
-      console.log("No existe el usuario");
+      console.log("No existe el paquete");
     } else {
       console.error("Error al enviar la solicitud:", error);
     }
@@ -359,37 +362,37 @@ async function deleteUserDataById() {
   try {
     if (
       !editedItem.value.id ||
-      !editedItem.value.name ||
+      !editedItem.value.clientId ||
       !editedItem.value.type ||
       !editedItem.value.status
     ) {
-      console.error("No se seleccionó un usuario");
-      infoSnackbar.value.message = "No se seleccionó un usuario";
+      console.error("No se seleccionó un paquete");
+      infoSnackbar.value.message = "No se seleccionó un paquete";
       infoSnackbar.value.color = "warning";
       showBanner();
       return;
     }
-    const response = await $api.delete("/users/" + editedItem.value.id);
+    const response = await $api.delete("/packages/" + editedItem.value.id);
 
     if (response.status === 200) {
-      console.log("Usuario eliminado exitosamente");
+      console.log("paquete eliminado exitosamente");
       closeAndClearDelete();
-      getUsersData();
+      getPackagesData();
 
-      infoSnackbar.value.message = "Usuario eliminado exitosamente";
+      infoSnackbar.value.message = "paquete eliminado exitosamente";
       infoSnackbar.value.color = "info";
       showBanner();
     } else if (response.status === 404) {
-      console.log("No existe el usuario");
+      console.log("No existe el paquete");
     } else {
       console.error(
-        "Error al obtener los datos de los usuarios. Estado de la respuesta:",
+        "Error al obtener los datos de los Paquetes. Estado de la respuesta:",
         response.status
       );
     }
   } catch (error) {
     if (error.response && error.response.status === 404) {
-      console.log("No existe el usuario");
+      console.log("No existe el paquete");
     } else {
       console.error("Error al enviar la solicitud:", error);
     }
