@@ -22,7 +22,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author carlos
  */
-@WebServlet(name = "RouteServlet", urlPatterns = {"/route/*"})
+@WebServlet(name = "RouteServlet", urlPatterns = {"/routes/*"})
 public class RouteServlet extends HttpServlet {
 
     private RouteService routeService;
@@ -67,6 +67,10 @@ public class RouteServlet extends HttpServlet {
             if (request.getPathInfo() != null) {
                 String pathParam = request.getPathInfo().replace("/", "");
                 List<Route> routes = routeService.getRouteById(Integer.parseInt(pathParam));
+                if (routes.isEmpty()) {
+                    processRequest("No se encontró la ruta", 404, response);
+                    return;
+                }
                 String result = ConverterJsonToObjectUtil.jsonFromRoutes(routes);
                 processRequest(result, 200, response);
             } else {

@@ -10,6 +10,7 @@ import com.ipc2.proyecto1.service.RoutesControlPointService;
 import com.ipc2.proyecto1.utils.ConverterJsonToObjectUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.stream.Collectors;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -21,8 +22,14 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author carlos
  */
-@WebServlet(name = "RoutesControlPointsServlet", urlPatterns = {"/routes_control_point"})
+@WebServlet(name = "RoutesControlPointsServlet", urlPatterns = {"/routes_control_points"})
 public class RoutesControlPointsServlet extends HttpServlet {
+
+    private final RoutesControlPointService routesControlPointsServive;
+
+    public RoutesControlPointsServlet() {
+        this.routesControlPointsServive = new RoutesControlPointService();
+    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,7 +42,8 @@ public class RoutesControlPointsServlet extends HttpServlet {
      */
     protected void processRequest(String text, int httpStatus, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("application/json;charset=UTF-8");
+        response.setStatus(httpStatus);
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println(text);
@@ -54,13 +62,48 @@ public class RoutesControlPointsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-    }
+        try {
 
-    private RoutesControlPointService routesControlPointsServive;
-    
-    public RoutesControlPointsServlet() {
-        this.routesControlPointsServive = new RoutesControlPointService();
+            String routeIdP = request.getParameter("route_id");
+            String controlPointIdP = request.getParameter("control_point_id");
+
+            if ((routeIdP != null) && (controlPointIdP != null)) {
+                int routeId = Integer.parseInt(routeIdP);
+                int controlPointId = Integer.parseInt(controlPointIdP);
+
+                RoutesControlPoint routeControlPoint = new RoutesControlPoint();
+                routeControlPoint.setRouteId(routeId);
+                routeControlPoint.setControlPointId(controlPointId);
+                List<RoutesControlPoint> routesControlPoints = routesControlPointsServive.getRoutesControlPointsById(routeControlPoint);
+                String result = ConverterJsonToObjectUtil.jsonFromRoutesControlPoint(routesControlPoints);
+                processRequest(result, 200, response);
+                return;
+            }
+
+            List<RoutesControlPoint> routesControlPoints = routesControlPointsServive.getRoutesControlPoints();
+            String result = ConverterJsonToObjectUtil.jsonFromRoutesControlPoint(routesControlPoints);
+            processRequest(result, 200, response);
+
+//            if (request.getPathInfo() != null) {
+//                String pathParam = request.getPathInfo().replace("/", "");
+//                List<RoutesControlPoint> routesControlPoints = routesControlPointsServive.getRoutesControlPointsById(Integer.parseInt(pathParam));
+//                if (routesControlPoints.isEmpty()) {
+//                    processRequest("No se encontró los puntos de control de la ruta", 404, response);
+//                    return;
+//                }
+//                String result = ConverterJsonToObjectUtil.jsonFromRoutesControlPoint(routesControlPoints);
+//                processRequest(result, 200, response);
+//            } else {
+//                List<RoutesControlPoint> routesControlPoints = routesControlPointsServive.getRoutesControlPoints();
+//                String result = ConverterJsonToObjectUtil.jsonFromRoutesControlPoint(routesControlPoints);
+//                processRequest(result, 200, response);
+//            }
+
+        } catch (HttpException e) {
+            processRequest(e.getMessage(), e.getHttpStatus(), response);
+        } catch (Exception e) {
+            processRequest(e.getMessage(), 500, response);
+        }
     }
     
     /**
@@ -74,7 +117,6 @@ public class RoutesControlPointsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //processRequest(request, response);
         
         String txtResponse = "OK RoutesControlPoints";
         String routesControlPointBody = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
@@ -93,6 +135,36 @@ public class RoutesControlPointsServlet extends HttpServlet {
             processRequest(e.getMessage(), 500, response);
         }
         
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String txtResponse = "RoutesControlPoint deleted";
+
+        try {
+
+            String routeIdP = request.getParameter("route_id");
+            String controlPointIdP = request.getParameter("control_point_id");
+
+            if ((routeIdP != null) && (controlPointIdP != null)) {
+                int routeId = Integer.parseInt(routeIdP);
+                int controlPointId = Integer.parseInt(controlPointIdP);
+
+                RoutesControlPoint routeControlPoint = new RoutesControlPoint();
+                routeControlPoint.setRouteId(routeId);
+                routeControlPoint.setControlPointId(controlPointId);
+                routesControlPointsServive.deleteRoutesControlPointById(routeControlPoint);
+                processRequest(txtResponse, 200, response);
+            }
+
+        } catch (HttpException e) {
+            processRequest(e.getMessage(), e.getHttpStatus(), response);
+        } catch (Exception e) {
+            processRequest(e.getMessage(), 500, response);
+        }
+
     }
 
     /**

@@ -3,6 +3,8 @@
     <h1>Paquetes</h1>
   </div>
   <ReceptionPackagesView />
+  <ReceptionDeliveredPackagesView />
+  <ReceptionLocationOfPackagesView />
 </template>
 
 <script setup>

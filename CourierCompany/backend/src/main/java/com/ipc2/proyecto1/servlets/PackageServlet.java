@@ -6,6 +6,7 @@ package com.ipc2.proyecto1.servlets;
 
 import com.ipc2.proyecto1.exceptions.HttpException;
 import com.ipc2.proyecto1.model.PackageN;
+import com.ipc2.proyecto1.model.User;
 import com.ipc2.proyecto1.service.PackageService;
 import com.ipc2.proyecto1.utils.ConverterJsonToObjectUtil;
 import java.io.IOException;
@@ -116,6 +117,39 @@ public class PackageServlet extends HttpServlet {
         try {
             packageService.addPackage(packagen);
             processRequest(txtResponse, 200, response);
+        } catch (HttpException e) {
+            processRequest(e.getMessage(), e.getHttpStatus(), response);
+        } catch (Exception e) {
+            processRequest(e.getMessage(), 500, response);
+        }
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String txtResponse = "Package updated";
+        String packageBody = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+        System.out.println("Package body:" + packageBody);
+
+        //Convert body into an object
+        PackageN packageN = ConverterJsonToObjectUtil.getPackage(packageBody);
+        System.out.println(packageN.getId());
+
+        try {
+
+            if (request.getPathInfo() != null) {
+                String pathParam = request.getPathInfo().replace("/", "");
+                packageN.setId(Integer.parseInt(pathParam));
+                //List<ControlPoint> controlPoints = controlPointService.getControlPointById(Integer.parseInt(pathParam));
+                packageService.updatePackage(packageN);
+                processRequest(txtResponse, 200, response);
+            } else {
+
+                String result = "Es necesario el id del usuario para actualizarlo";
+                processRequest(result, 400, response);
+            }
+
         } catch (HttpException e) {
             processRequest(e.getMessage(), e.getHttpStatus(), response);
         } catch (Exception e) {

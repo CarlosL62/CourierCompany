@@ -22,7 +22,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author carlos
  */
-@WebServlet(name = "GlobalCostsServlet", urlPatterns = {"/global_cost"})
+@WebServlet(name = "GlobalCostsServlet", urlPatterns = {"/global_costs"})
 public class GlobalCostsServlet extends HttpServlet {
 
     private GlobalCostService globalCostService;

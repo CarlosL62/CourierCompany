@@ -22,7 +22,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author carlos
  */
-@WebServlet(name = "ControlPointServlet", urlPatterns = {"/control_point/*"})
+@WebServlet(name = "ControlPointServlet", urlPatterns = {"/control_points/*"})
 public class ControlPointServlet extends HttpServlet {
 
     private ControlPointService controlPointService;

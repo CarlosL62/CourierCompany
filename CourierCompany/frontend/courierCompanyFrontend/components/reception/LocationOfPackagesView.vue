@@ -15,15 +15,10 @@
   >
     <template #top>
       <v-toolbar flat>
-        <v-toolbar-title>Paquetes registrados</v-toolbar-title>
+        <v-toolbar-title>Localizar paquete</v-toolbar-title>
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
-          <template v-slot:activator="{ props }">
-            <v-btn class="mb-2" color="primary" dark v-bind="props">
-              Nuevo paquete
-            </v-btn>
-          </template>
           <v-card>
             <v-card-title class="text-center">
               <span>Información de paquete</span>
@@ -112,6 +107,8 @@
           </v-card>
         </v-dialog>
       </v-toolbar>
+      <v-text-field v-model="editedItem.id" label="ID"></v-text-field>
+      <v-btn color="primary" @click="getPackagesData"> Buscar </v-btn>
     </template>
     <template v-slot:item.actions="{ item }">
       <v-icon class="me-2" size="small" @click="editItem(item)">
@@ -130,7 +127,6 @@ const { $api } = useNuxtApp();
 
 const packagesData = ref([]);
 const dialog = ref(false);
-const dialogDelete = ref(false);
 const editedItem = ref({});
 
 const editedItemIndex = ref(-1);
@@ -152,7 +148,6 @@ const editItem = (item) => {
 const closeAndClearEdit = () => {
   dialog.value = false;
   editedItemIndex.value = -1;
-  editedItem.value = {};
 };
 
 const headers = [
@@ -182,7 +177,6 @@ const loadData = async () => {
   console.log(packageById.value);
   if (!packageById.value) {
     console.log("paquete no encontrado desde método loadData");
-    createPackageData();
   } else {
     console.log("paquete encontrado desde método loadData");
     updatePackageData();
@@ -193,7 +187,7 @@ const loadData = async () => {
 //Getting all data from the API
 async function getPackagesData() {
   try {
-    const response = await $api.get("/packages");
+    const response = await $api.get("/packages/" + editedItem.value.id);
     console.log(response.data);
 
     if (response.status === 200) {
@@ -242,63 +236,6 @@ async function getPackageDataById() {
       packageById.value = false;
     } else {
       console.error("Error al enviar la solicitud:", error);
-    }
-  }
-}
-
-//Create data into the API
-async function createPackageData() {
-  console.log(editedItem.value);
-  try {
-    if (
-      !editedItem.value.clientId ||
-      !editedItem.value.weigth ||
-      !editedItem.value.description ||
-      !editedItem.value.beginDate
-    ) {
-      console.error("Hay campos vacíos");
-      infoSnackbar.value.message = "Hay campos vacíos";
-      infoSnackbar.value.color = "warning";
-      showBanner();
-      return;
-    }
-    const response = await $api.post("/packages", {
-      clientId: editedItem.value.clientId,
-      status: editedItem.value.status,
-      weigth: editedItem.value.weigth,
-      description: editedItem.value.description,
-      beginDate: editedItem.value.beginDate,
-    });
-
-    if (response.status === 200) {
-      console.log("paquete creado exitosamente");
-      closeAndClearEdit();
-      getPackagesData();
-
-      infoSnackbar.value.message = "paquete creado exitosamente";
-      infoSnackbar.value.color = "success";
-      showBanner();
-    } else if (response.status === 404) {
-      console.log("No existe el paquete");
-    } else {
-      console.error(
-        "Error al obtener los datos de los Paquetes. Estado de la respuesta:",
-        response.status
-      );
-    }
-  } catch (error) {
-    if (error.response && error.response.status === 404) {
-      console.log("No existe el paquete");
-    } else if (error.response && error.response.status === 500) {
-      console.log("El paquete ya existe");
-      infoSnackbar.value.message = "El paquete ya existe";
-      infoSnackbar.value.color = "warning";
-      showBanner();
-    } else {
-      console.error("Error al enviar la solicitud:", error);
-      infoSnackbar.value.message = "Algo salió mal";
-      infoSnackbar.value.color = "error";
-      showBanner();
     }
   }
 }
