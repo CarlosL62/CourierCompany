@@ -111,22 +111,6 @@ public class ConverterJsonToObjectUtil {
            throw new InternalServerError("error serializing packages");
         }
     }
-    
-    public static Bill getBill(String body) {
-        try {
-            return new ObjectMapper().readValue(body, Bill.class);
-        } catch (JsonProcessingException ex) {
-            throw new BadRequestException("json invalido");
-        }
-    }
-    
-    public static BillDetail getBillDetail(String body) {
-        try {
-            return new ObjectMapper().readValue(body, BillDetail.class);
-        } catch (JsonProcessingException ex) {
-            throw new BadRequestException("json invalido");
-        }
-    }
 
     public static String jsonFromDestinations(List<Destination> destinations) {
         try {
@@ -163,6 +147,46 @@ public class ConverterJsonToObjectUtil {
     public static String jsonFromRoutesControlPoint(List<RoutesControlPoint> routesControlPoints) {
         try {
             return new ObjectMapper().writeValueAsString(routesControlPoints);
+        } catch (JsonProcessingException ex) {
+            throw new InternalServerError("error serializing packages");
+        }
+    }
+
+    public static String jsonFromBills(List<Bill> bills) {
+        try {
+            return new ObjectMapper().writeValueAsString(bills);
+        } catch (JsonProcessingException ex) {
+            throw new InternalServerError("error serializing packages");
+        }
+    }
+
+    public static Bill getBill(String body) {
+        try {
+            return new ObjectMapper().readValue(body, Bill.class);
+        } catch (JsonProcessingException ex) {
+            throw new BadRequestException("json invalido");
+        }
+    }
+
+    public static String jsonFromBillDetails(List<BillDetail> billDetails) {
+        try {
+            return new ObjectMapper().writeValueAsString(billDetails);
+        } catch (JsonProcessingException ex) {
+            throw new InternalServerError("error serializing packages");
+        }
+    }
+
+    public static BillDetail getBillDetail(String body) {
+        try {
+            return new ObjectMapper().readValue(body, BillDetail.class);
+        } catch (JsonProcessingException ex) {
+            throw new BadRequestException("json invalido");
+        }
+    }
+
+    public static String jsonFromBillDetailsById(List<BillDetailsByBillId> billDetailsByBillIds) {
+        try {
+            return new ObjectMapper().writeValueAsString(billDetailsByBillIds);
         } catch (JsonProcessingException ex) {
             throw new InternalServerError("error serializing packages");
         }

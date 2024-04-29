@@ -17,13 +17,14 @@ import java.util.List;
  */
 public class PackageRepository {
 
-    private DataBaseUtils dataBaseUtils;
-    private List<String> fieldNames = new ArrayList<>();
+    private final DataBaseUtils dataBaseUtils;
+    private final List<String> fieldNames = new ArrayList<>();
 
     public PackageRepository() {
         this.dataBaseUtils = new DataBaseUtils();
         fieldNames.add("PackageID");
         fieldNames.add("ClientID");
+        fieldNames.add("DestinationID");
         fieldNames.add("PackageWeigth");
         fieldNames.add("PackageDescription");
         fieldNames.add("PackageStatus");
@@ -32,7 +33,7 @@ public class PackageRepository {
     }
 
     public void addPackage(PackageN packagen) {
-        String query = String.format("INSERT INTO Packages (ClientID, PackageWeigth, PackageDescription, PackageBeginDate) VALUES (%s, %s, \"%s\", \"%s\")", packagen.getClientId(), packagen.getWeigth(), packagen.getDescription(), packagen.getBeginDate());
+        String query = String.format("INSERT INTO Packages (ClientID, DestinationID, PackageWeigth, PackageDescription, PackageBeginDate) VALUES (%s, %s, %s, \"%s\", \"%s\")", packagen.getClientId(), packagen.getDestinationId() ,packagen.getWeigth(), packagen.getDescription(), packagen.getBeginDate());
         this.dataBaseUtils.insert(query);
         System.out.println("query:" + query);
     }
@@ -49,11 +50,12 @@ public class PackageRepository {
             PackageN packageRow = new PackageN();
             packageRow.setId((Integer) row[0]);
             packageRow.setClientId((Integer) row[1]);
-            packageRow.setWeigth((Integer) row[2]);
-            packageRow.setDescription((String) row[3]);
-            packageRow.setStatus((String) row[4]);
-            packageRow.setBeginDate((String) row[5]);
-            packageRow.setEndDate((String) row[6]);
+            packageRow.setDestinationId((Integer) row[2]);
+            packageRow.setWeigth((Integer) row[3]);
+            packageRow.setDescription((String) row[4]);
+            packageRow.setStatus((String) row[5]);
+            packageRow.setBeginDate((String) row[6]);
+            packageRow.setEndDate((String) row[7]);
 
             packages.add(packageRow);
         }
@@ -72,11 +74,12 @@ public class PackageRepository {
             PackageN packageRow = new PackageN();
             packageRow.setId((Integer) row[0]);
             packageRow.setClientId((Integer) row[1]);
-            packageRow.setWeigth((Integer) row[2]);
-            packageRow.setDescription((String) row[3]);
-            packageRow.setStatus((String) row[4]);
-            packageRow.setBeginDate((String) row[5]);
-            packageRow.setEndDate((String) row[6]);
+            packageRow.setDestinationId((Integer) row[2]);
+            packageRow.setWeigth((Integer) row[3]);
+            packageRow.setDescription((String) row[4]);
+            packageRow.setStatus((String) row[5]);
+            packageRow.setBeginDate((String) row[6]);
+            packageRow.setEndDate((String) row[7]);
 
             packages.add(packageRow);
         }
@@ -94,11 +97,12 @@ public class PackageRepository {
             PackageN packageRow = new PackageN();
             packageRow.setId((Integer) row[0]);
             packageRow.setClientId((Integer) row[1]);
-            packageRow.setWeigth((Integer) row[2]);
-            packageRow.setDescription((String) row[3]);
-            packageRow.setStatus((String) row[4]);
-            packageRow.setBeginDate((String) row[5]);
-            packageRow.setEndDate((String) row[6]);
+            packageRow.setDestinationId((Integer) row[2]);
+            packageRow.setWeigth((Integer) row[3]);
+            packageRow.setDescription((String) row[4]);
+            packageRow.setStatus((String) row[5]);
+            packageRow.setBeginDate((String) row[6]);
+            packageRow.setEndDate((String) row[7]);
 
             packages.add(packageRow);
         }
@@ -106,7 +110,7 @@ public class PackageRepository {
     }
 
     public void updatePackage(PackageN packageN) {
-        String query = String.format("UPDATE Packages SET ClientID = \"%s\", PackageWeigth = \"%s\", PackageDescription = \"%s\", PackageStatus = \"%s\", PackageBeginDate = \"%s\", PackageEndDate = \"%s\"  WHERE PackageID = %s;", packageN.getClientId(), packageN.getWeigth(), packageN.getDescription(), packageN.getStatus(), packageN.getBeginDate(), packageN.getEndDate(), packageN.getId());
+        String query = String.format("UPDATE Packages SET ClientID = \"%s\", DestinationID = %s ,PackageWeigth = \"%s\", PackageDescription = \"%s\", PackageStatus = \"%s\", PackageBeginDate = \"%s\", PackageEndDate = \"%s\"  WHERE PackageID = %s;", packageN.getClientId(), packageN.getDestinationId() ,packageN.getWeigth(), packageN.getDescription(), packageN.getStatus(), packageN.getBeginDate(), packageN.getEndDate(), packageN.getId());
         dataBaseUtils.update(query);
         System.out.println("query:"+query);
     }

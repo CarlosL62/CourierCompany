@@ -16,6 +16,7 @@ public class PackageN {
 
     private int id;
     private int clientId;
+    private int destinationId;
     private String status;
     private int weigth;
     private String description;
@@ -36,6 +37,14 @@ public class PackageN {
 
     public void setClientId(int clientId) {
         this.clientId = clientId;
+    }
+
+    public int getDestinationId() {
+        return destinationId;
+    }
+
+    public void setDestinationId(int destinationId) {
+        this.destinationId = destinationId;
     }
 
     public String getStatus() {
