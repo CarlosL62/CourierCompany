@@ -9,26 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="37cc29d1-f43d-4b42-a27e-50811ebde0bf" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/model/PackageN.java" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/model/PackageN.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/repository/BillRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/repository/BillRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/repository/PackageRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/repository/PackageRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/service/BillService.java" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/service/BillService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/service/ControlPointService.java" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/service/ControlPointService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/servlets/BillServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/servlets/BillServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/utils/ConverterJsonToObjectUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/utils/ConverterJsonToObjectUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/model/PackageN.class" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/model/PackageN.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/repository/BillRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/repository/BillRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/repository/PackageRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/repository/PackageRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/service/BillService.class" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/service/BillService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/service/ControlPointService.class" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/service/ControlPointService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/servlets/BillServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/servlets/BillServlet.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/utils/ConverterJsonToObjectUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/utils/ConverterJsonToObjectUtil.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CourierCompany/documentation/Manual de usuario.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/documentation/Manual de usuario.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CourierCompany/documentation/Manual técnico.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/documentation/Manual técnico.pdf" afterDir="false" />
-    </list>
+    <list default="true" id="37cc29d1-f43d-4b42-a27e-50811ebde0bf" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -232,7 +213,7 @@
       <workItem from="1714087269127" duration="9000" />
       <workItem from="1714165012935" duration="2292000" />
       <workItem from="1714173165486" duration="5215000" />
-      <workItem from="1714235417300" duration="56532000" />
+      <workItem from="1714235417300" duration="56871000" />
     </task>
     <servers />
   </component>
