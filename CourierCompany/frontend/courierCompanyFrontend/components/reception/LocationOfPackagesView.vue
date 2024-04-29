@@ -152,7 +152,8 @@ const closeAndClearEdit = () => {
 
 const headers = [
   { title: "ID", value: "id" },
-  { title: "Nombre", value: "clientId" },
+  { title: "ClienteID", value: "clientId" },
+  { title: "Destino", value: "destinationId" },
   { title: "Estado", value: "status" },
   { title: "Peso", value: "weigth" },
   { title: "descripcion", value: "description" },
@@ -247,6 +248,7 @@ async function updatePackageData() {
     if (
       !editedItem.value.id ||
       !editedItem.value.clientId ||
+      !editedItem.value.destinationId ||
       !editedItem.value.status ||
       !editedItem.value.weigth ||
       !editedItem.value.description ||
@@ -260,6 +262,7 @@ async function updatePackageData() {
     }
     const response = await $api.put("/packages/" + editedItem.value.id, {
       clientId: editedItem.value.clientId,
+      destinationId: editedItem.value.destinationId,
       status: editedItem.value.status,
       weigth: editedItem.value.weigth,
       description: editedItem.value.description,

@@ -38,13 +38,9 @@ onMounted(() => {
 });
 
 const links = [
-  // { name: "Usuarios", link: "/administration/users" },
-  // { name: "Rutas", link: "/administration/routes" },
-  // { name: "Puntos de control", link: "/administration/controlPoints" },
-  // { name: "Destinos", link: "/administration/destinies" },
-  // { name: "Tarifas globales", link: "/administration/globalCosts" },
   { name: "Paquetes", link: "/reception/packages" },
   { name: "Clientes", link: "/reception/clients" },
+  { name: "Facturas", link: "/reception/bills" },
 ];
 </script>
 

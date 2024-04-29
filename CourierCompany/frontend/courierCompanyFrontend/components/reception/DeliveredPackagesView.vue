@@ -42,6 +42,13 @@
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" md="4" lg="6">
+                    <v-text-field
+                      v-model="editedItem.destinationId"
+                      :disabled="editedItemIndex !== -1"
+                      label="DestinoID"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="4" lg="6">
                     <v-select
                       v-model="editedItem.status"
                       :disabled="editedItemIndex === -1"
@@ -152,7 +159,8 @@ const closeAndClearEdit = () => {
 
 const headers = [
   { title: "ID", value: "id" },
-  { title: "Nombre", value: "clientId" },
+  { title: "ClienteID", value: "clientId" },
+  { title: "DestinoID ", value: "destinationId" },
   { title: "Estado", value: "status" },
   { title: "Peso", value: "weigth" },
   { title: "descripcion", value: "description" },
@@ -247,6 +255,7 @@ async function updatePackageData() {
     if (
       !editedItem.value.id ||
       !editedItem.value.clientId ||
+      !editedItem.value.destinationId ||
       !editedItem.value.status ||
       !editedItem.value.weigth ||
       !editedItem.value.description ||
@@ -261,6 +270,7 @@ async function updatePackageData() {
     }
     const response = await $api.put("/packages/" + editedItem.value.id, {
       clientId: editedItem.value.clientId,
+      destinationId: editedItem.value.destinationId,
       status: editedItem.value.status,
       weigth: editedItem.value.weigth,
       description: editedItem.value.description,

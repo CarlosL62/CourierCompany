@@ -10,23 +10,23 @@
   </v-snackbar>
   <v-data-table
     :headers="headers"
-    :items="packagesData"
+    :items="billDetailsData"
     :sort-by="[{ key: 'id', order: 'asc' }]"
   >
     <template #top>
       <v-toolbar flat>
-        <v-toolbar-title>Paquetes registrados</v-toolbar-title>
+        <v-toolbar-title>Detalles de factura</v-toolbar-title>
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ props }">
             <v-btn class="mb-2" color="primary" dark v-bind="props">
-              Nuevo paquete
+              Añadir detalle
             </v-btn>
           </template>
           <v-card>
             <v-card-title class="text-center">
-              <span>Información de paquete</span>
+              <span>Información de Datos de factura</span>
             </v-card-title>
 
             <v-card-text>
@@ -44,13 +44,6 @@
                       v-model="editedItem.clientId"
                       :disabled="editedItemIndex !== -1"
                       label="ClienteID"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="4" lg="6">
-                    <v-text-field
-                      v-model="editedItem.destinationId"
-                      :disabled="editedItemIndex !== -1"
-                      label="DestinoID"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" md="4" lg="6">
@@ -119,6 +112,8 @@
           </v-card>
         </v-dialog>
       </v-toolbar>
+      <v-text-field v-model="editedItem.id" label="ID"></v-text-field>
+      <v-btn color="primary" @click="getBillDetailsData"> Buscar </v-btn>
     </template>
     <template v-slot:item.actions="{ item }">
       <v-icon class="me-2" size="small" @click="editItem(item)">
@@ -135,9 +130,8 @@
 import { ref, onMounted } from "vue";
 const { $api } = useNuxtApp();
 
-const packagesData = ref([]);
+const billDetailsData = ref([]);
 const dialog = ref(false);
-const dialogDelete = ref(false);
 const editedItem = ref({});
 
 const editedItemIndex = ref(-1);
@@ -150,7 +144,7 @@ const infoSnackbar = ref({
 });
 
 const editItem = (item) => {
-  editedItemIndex.value = packagesData.value.indexOf(item);
+  editedItemIndex.value = billDetailsData.value.indexOf(item);
   editedItem.value = Object.assign({}, item);
   console.log(editedItem.value);
   dialog.value = true;
@@ -159,24 +153,20 @@ const editItem = (item) => {
 const closeAndClearEdit = () => {
   dialog.value = false;
   editedItemIndex.value = -1;
-  editedItem.value = {};
 };
 
 const headers = [
-  { title: "ID", value: "id" },
+  { title: "FacturaID", value: "billId" },
+  { title: "Fecha", value: "billDate" },
   { title: "ClienteID", value: "clientId" },
-  { title: "DestinoID ", value: "destinationId" },
-  { title: "Estado", value: "status" },
-  { title: "Peso", value: "weigth" },
-  { title: "descripcion", value: "description" },
-  { title: "Fecha de entrada", value: "beginDate" },
-  { title: "Fecha de entrega", value: "endDate" },
+  { title: "PaqueteID", value: "packageId" },
+  { title: "Costo de destino", value: "destinationCost" },
+  { title: "Costo de peso", value: "weigthCost" },
+  { title: "Costo total", value: "totalCost" },
   { title: "Acciones", value: "actions", sortable: false },
 ];
 
-onMounted(() => {
-  getPackagesData();
-});
+onMounted(() => {});
 
 //Setting information for the snackbar
 const showBanner = () => {
@@ -184,41 +174,42 @@ const showBanner = () => {
 };
 
 //Loading data
-const packageById = ref(false);
+const billDetailsById = ref(false);
 const loadData = async () => {
-  await getPackageDataById();
-  console.log(packageById.value);
-  if (!packageById.value) {
-    console.log("paquete no encontrado desde método loadData");
-    createPackageData();
+  await getBillDetailsDataByBillId();
+  console.log(billDetailsById.value);
+  if (!billDetailsById.value) {
+    console.log("Datos de factura no encontrado desde método loadData");
   } else {
-    console.log("paquete encontrado desde método loadData");
-    updatePackageData();
-    packageById.value = false;
+    console.log("Datos de factura encontrado desde método loadData");
+    updateBillDetailsData();
+    billDetailsById.value = false;
   }
 };
 
 //Getting all data from the API
-async function getPackagesData() {
+async function getBillDetailsData() {
   try {
-    const response = await $api.get("/packages");
+    const response = await $api.get(
+      "/bills/bill_details" + "?bill_id=" + editedItem.value.id
+    );
     console.log(response.data);
 
     if (response.status === 200) {
-      console.log("Paquetes encontrados");
-      packagesData.value = response.data;
+      console.log("Datos de facturas encontrados");
+      billDetailsData.value = response.data;
       console.log(response.data);
     } else if (response.status === 404) {
-      console.log("No existen Paquetes");
+      console.log("No existen Datos de facturas");
     } else {
       console.error(
-        "Error al obtener los datos de los Paquetes. Estado de la respuesta:",
+        "Error al obtener los datos de los Datos de facturas. Estado de la respuesta:",
         response.status
       );
     }
   } catch (error) {
     if (error.response && error.response.status === 404) {
-      console.log("No existen Paquetes");
+      console.log("No existen Datos de facturas");
     } else {
       console.error("Error al enviar la solicitud:", error);
     }
@@ -226,95 +217,38 @@ async function getPackagesData() {
 }
 
 //Getting data from the API by id
-async function getPackageDataById() {
+async function getBillDetailsDataByBillId() {
   if (!editedItem.value.id) {
-    console.log("No se ha seleccionado un paquete");
+    console.log("No se ha seleccionado un Datos de factura");
     return;
   }
 
   try {
-    const response = await $api.get("/packages/" + editedItem.value.id);
+    const response = await $api.get(
+      "/bills/bill_details" + "?bill_id=" + editedItem.value.id
+    );
 
     if (response.status === 200) {
-      console.log("paquete encontrado");
-      packageById.value = true;
+      console.log("Datos de factura encontrado");
+      billDetailsById.value = true;
     } else {
       console.error(
-        "Error al obtener los datos de los Paquetes. Estado de la respuesta:",
+        "Error al obtener los datos de los Datos de facturas. Estado de la respuesta:",
         response.status
       );
     }
   } catch (error) {
     if (error.response.status === 404) {
-      console.log("No existe el paquete");
-      packageById.value = false;
+      console.log("No existe el Datos de factura");
+      billDetailsById.value = false;
     } else {
       console.error("Error al enviar la solicitud:", error);
-    }
-  }
-}
-
-//Create data into the API
-async function createPackageData() {
-  console.log(editedItem.value);
-  try {
-    if (
-      !editedItem.value.clientId ||
-      !editedItem.value.destinationId ||
-      !editedItem.value.weigth ||
-      !editedItem.value.description ||
-      !editedItem.value.beginDate
-    ) {
-      console.error("Hay campos vacíos");
-      infoSnackbar.value.message = "Hay campos vacíos";
-      infoSnackbar.value.color = "warning";
-      showBanner();
-      return;
-    }
-    const response = await $api.post("/packages", {
-      clientId: editedItem.value.clientId,
-      destinationId: editedItem.value.destinationId,
-      status: editedItem.value.status,
-      weigth: editedItem.value.weigth,
-      description: editedItem.value.description,
-      beginDate: editedItem.value.beginDate,
-    });
-
-    if (response.status === 200) {
-      console.log("paquete creado exitosamente");
-      closeAndClearEdit();
-      getPackagesData();
-
-      infoSnackbar.value.message = "paquete creado exitosamente";
-      infoSnackbar.value.color = "success";
-      showBanner();
-    } else if (response.status === 404) {
-      console.log("No existe el paquete");
-    } else {
-      console.error(
-        "Error al obtener los datos de los Paquetes. Estado de la respuesta:",
-        response.status
-      );
-    }
-  } catch (error) {
-    if (error.response && error.response.status === 404) {
-      console.log("No existe el paquete");
-    } else if (error.response && error.response.status === 500) {
-      console.log("El paquete ya existe");
-      infoSnackbar.value.message = "El paquete ya existe";
-      infoSnackbar.value.color = "warning";
-      showBanner();
-    } else {
-      console.error("Error al enviar la solicitud:", error);
-      infoSnackbar.value.message = "Algo salió mal";
-      infoSnackbar.value.color = "error";
-      showBanner();
     }
   }
 }
 
 //Updating data into the API
-async function updatePackageData() {
+async function updateBillDetailsData() {
   console.log(editedItem.value);
   try {
     if (
@@ -343,24 +277,24 @@ async function updatePackageData() {
     });
 
     if (response.status === 200) {
-      console.log("Paquete editado exitosamente");
+      console.log("Datos de factura editado exitosamente");
       closeAndClearEdit();
-      getPackagesData();
+      getBillDetailsData();
 
-      infoSnackbar.value.message = "Paquete editado exitosamente";
+      infoSnackbar.value.message = "Datos de factura editado exitosamente";
       infoSnackbar.value.color = "success";
       showBanner();
     } else if (response.status === 404) {
-      console.log("No existe el paquete");
+      console.log("No existe el Datos de factura");
     } else {
       console.error(
-        "Error al obtener los datos de los Paquetes. Estado de la respuesta:",
+        "Error al obtener los datos de los Datos de facturas. Estado de la respuesta:",
         response.status
       );
     }
   } catch (error) {
     if (error.response && error.response.status === 404) {
-      console.log("No existe el paquete");
+      console.log("No existe el Datos de factura");
     } else {
       console.error("Error al enviar la solicitud:", error);
     }
