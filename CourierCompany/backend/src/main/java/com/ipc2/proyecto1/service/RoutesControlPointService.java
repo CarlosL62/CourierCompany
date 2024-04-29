@@ -4,8 +4,12 @@
  */
 package com.ipc2.proyecto1.service;
 
+import com.ipc2.proyecto1.model.Route;
 import com.ipc2.proyecto1.model.RoutesControlPoint;
+import com.ipc2.proyecto1.model.User;
 import com.ipc2.proyecto1.repository.RoutesControlPointRepository;
+
+import java.util.List;
 
 /**
  *
@@ -18,9 +22,20 @@ public class RoutesControlPointService {
     public RoutesControlPointService() {
         this.routeControlPointRepository = new RoutesControlPointRepository();
     }
-    
+
+    public List<RoutesControlPoint> getRoutesControlPoints() {
+        return routeControlPointRepository.getRoutesControlPoints();
+    }
+
+    public List<RoutesControlPoint> getRoutesControlPointsById(RoutesControlPoint routesControlPoint) {
+        return routeControlPointRepository.getRouteControlPointById(routesControlPoint);
+    }
+
     public void addRoutesControlPoint(RoutesControlPoint routeControlPoint) {
-        
         routeControlPointRepository.addRoutesControlPoint(routeControlPoint);
+    }
+
+    public void deleteRoutesControlPointById(RoutesControlPoint routeControlPoint) {
+        routeControlPointRepository.deleteRoutesControlPointById(routeControlPoint);
     }
 }

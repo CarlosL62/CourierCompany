@@ -12,17 +12,17 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  *
  * @author carlos
  */
-@WebServlet(name = "RouteServlet", urlPatterns = {"/route/*"})
+@WebServlet(name = "RouteServlet", urlPatterns = {"/routes/*"})
 public class RouteServlet extends HttpServlet {
 
     private RouteService routeService;
@@ -67,6 +67,10 @@ public class RouteServlet extends HttpServlet {
             if (request.getPathInfo() != null) {
                 String pathParam = request.getPathInfo().replace("/", "");
                 List<Route> routes = routeService.getRouteById(Integer.parseInt(pathParam));
+                if (routes.isEmpty()) {
+                    processRequest("No se encontró la ruta", 404, response);
+                    return;
+                }
                 String result = ConverterJsonToObjectUtil.jsonFromRoutes(routes);
                 processRequest(result, 200, response);
             } else {

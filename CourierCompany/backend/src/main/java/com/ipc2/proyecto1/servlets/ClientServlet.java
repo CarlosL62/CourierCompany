@@ -10,22 +10,22 @@ import com.ipc2.proyecto1.service.ClientService;
 import com.ipc2.proyecto1.utils.ConverterJsonToObjectUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.http.HttpConnectTimeoutException;
+import java.util.List;
 import java.util.stream.Collectors;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  *
  * @author carlos
  */
-@WebServlet(name = "ClientServlet", urlPatterns = {"/client"})
+@WebServlet(name = "ClientServlet", urlPatterns = {"/clients/*"})
 public class ClientServlet extends HttpServlet {
     
-    private ClientService clientService;
+    private final ClientService clientService;
 
     public ClientServlet() {
         this.clientService = new ClientService();
@@ -35,14 +35,14 @@ public class ClientServlet extends HttpServlet {
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(String text, HttpServletResponse response)
+    protected void processRequest(String text, int httpStatus, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("application/json;charset=UTF-8");
+        response.setStatus(httpStatus);
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println(text);
@@ -61,7 +61,28 @@ public class ClientServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        try {
+
+            if (request.getPathInfo() != null) {
+                String pathParam = request.getPathInfo().replace("/", "");
+                List<Client> clients = clientService.getClientById(Integer.parseInt(pathParam));
+                if (clients.isEmpty()) {
+                    processRequest("No se encontró el cliente", 404, response);
+                    return;
+                }
+                String result = ConverterJsonToObjectUtil.jsonFromClients(clients);
+                processRequest(result, 200, response);
+            } else {
+                List<Client> clients = clientService.getClients();
+                String result = ConverterJsonToObjectUtil.jsonFromClients(clients);
+                processRequest(result, 200, response);
+            }
+
+        } catch (HttpException e) {
+            processRequest(e.getMessage(), e.getHttpStatus(), response);
+        } catch (Exception e) {
+            processRequest(e.getMessage(), 500, response);
+        }
     }
 
     /**
@@ -86,14 +107,47 @@ public class ClientServlet extends HttpServlet {
         //Send it to service
         try {
             clientService.addClient(client);
-            processRequest(txtResponse, response);
+            processRequest(txtResponse, 200, response);
         } catch (HttpException e) {
-            processRequest(e.getMessage(), response);
+            processRequest(e.getMessage(), e.getHttpStatus(), response);
         } catch (Exception e) {
-            processRequest(e.getMessage(), response);
+            processRequest(e.getMessage(), 500, response);
         }
         
         
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String txtResponse = "Client updated";
+        String clientBody = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+        System.out.println("Client body:" + clientBody);
+
+        //Convert body into an object
+        Client client = ConverterJsonToObjectUtil.getClient(clientBody);
+        System.out.println(client.getId());
+
+        try {
+
+            if (request.getPathInfo() != null) {
+                String pathParam = request.getPathInfo().replace("/", "");
+                client.setId(Integer.parseInt(pathParam));
+                //List<ControlPoint> controlPoints = controlPointService.getControlPointById(Integer.parseInt(pathParam));
+                clientService.updateClient(client);
+                processRequest(txtResponse, 200, response);
+            } else {
+
+                String result = "Es necesario el id del cliente para actualizarlo";
+                processRequest(result, 400, response);
+            }
+
+        } catch (HttpException e) {
+            processRequest(e.getMessage(), e.getHttpStatus(), response);
+        } catch (Exception e) {
+            processRequest(e.getMessage(), 500, response);
+        }
     }
 
     /**

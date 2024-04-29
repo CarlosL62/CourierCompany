@@ -12,17 +12,17 @@ import com.ipc2.proyecto1.utils.ConverterJsonToObjectUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.stream.Collectors;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  *
  * @author carlos
  */
-@WebServlet(name = "BillServlet", urlPatterns = {"/bill/*"})
+@WebServlet(name = "BillServlet", urlPatterns = {"/bills/*"})
 public class BillServlet extends HttpServlet {
 
     private BillService billService;
@@ -43,6 +43,7 @@ public class BillServlet extends HttpServlet {
     protected void processRequest(String text, int httpStatus, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
+        response.setStatus(httpStatus);
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println(text);

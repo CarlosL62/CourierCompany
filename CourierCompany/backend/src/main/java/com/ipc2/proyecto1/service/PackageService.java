@@ -6,6 +6,7 @@ package com.ipc2.proyecto1.service;
 
 import com.ipc2.proyecto1.exceptions.BadRequestException;
 import com.ipc2.proyecto1.model.PackageN;
+import com.ipc2.proyecto1.model.User;
 import com.ipc2.proyecto1.repository.PackageRepository;
 import com.ipc2.proyecto1.utils.Verifications;
 import java.util.List;
@@ -37,6 +38,11 @@ public class PackageService {
     
     public List<PackageN> getPackageByStatus(String status){
         return packageRepository.getPackageByStatus(status);
+    }
+
+    public void updatePackage(PackageN packageN) {
+
+        packageRepository.updatePackage(packageN);
     }
     
     public void isValidPackage (PackageN packagen) {

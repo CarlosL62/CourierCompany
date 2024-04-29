@@ -5,6 +5,7 @@
 package com.ipc2.proyecto1.repository;
 
 import com.ipc2.proyecto1.model.PackageN;
+import com.ipc2.proyecto1.model.User;
 import com.ipc2.proyecto1.utils.DataBaseUtils;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -102,5 +103,11 @@ public class PackageRepository {
             packages.add(packageRow);
         }
         return packages;
+    }
+
+    public void updatePackage(PackageN packageN) {
+        String query = String.format("UPDATE Packages SET ClientID = \"%s\", PackageWeigth = \"%s\", PackageDescription = \"%s\", PackageStatus = \"%s\", PackageBeginDate = \"%s\", PackageEndDate = \"%s\"  WHERE PackageID = %s;", packageN.getClientId(), packageN.getWeigth(), packageN.getDescription(), packageN.getStatus(), packageN.getBeginDate(), packageN.getEndDate(), packageN.getId());
+        dataBaseUtils.update(query);
+        System.out.println("query:"+query);
     }
 }

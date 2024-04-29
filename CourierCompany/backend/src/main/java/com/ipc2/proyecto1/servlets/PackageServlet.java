@@ -6,24 +6,24 @@ package com.ipc2.proyecto1.servlets;
 
 import com.ipc2.proyecto1.exceptions.HttpException;
 import com.ipc2.proyecto1.model.PackageN;
+import com.ipc2.proyecto1.model.User;
 import com.ipc2.proyecto1.service.PackageService;
 import com.ipc2.proyecto1.utils.ConverterJsonToObjectUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  *
  * @author carlos
  */
-@WebServlet(name = "PackageServlet", urlPatterns = {"/package/*"})
-//@WebServlet("/package/*")
+@WebServlet(name = "PackageServlet", urlPatterns = {"/packages/*"})
 public class PackageServlet extends HttpServlet {
 
     private PackageService packageService;
@@ -65,11 +65,13 @@ public class PackageServlet extends HttpServlet {
             throws ServletException, IOException {
 
         try {
+
             String status = request.getParameter("status");
-            if (!status.equals(null)) {
+            if (status != null && !status.isEmpty()) {
                 List<PackageN> packages = packageService.getPackageByStatus(status);
                 String result = ConverterJsonToObjectUtil.jsonFromPackages(packages);
                 processRequest(result, 200, response);
+                return;
             }
             
             if (request.getPathInfo() != null) {
@@ -115,6 +117,39 @@ public class PackageServlet extends HttpServlet {
         try {
             packageService.addPackage(packagen);
             processRequest(txtResponse, 200, response);
+        } catch (HttpException e) {
+            processRequest(e.getMessage(), e.getHttpStatus(), response);
+        } catch (Exception e) {
+            processRequest(e.getMessage(), 500, response);
+        }
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String txtResponse = "Package updated";
+        String packageBody = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+        System.out.println("Package body:" + packageBody);
+
+        //Convert body into an object
+        PackageN packageN = ConverterJsonToObjectUtil.getPackage(packageBody);
+        System.out.println(packageN.getId());
+
+        try {
+
+            if (request.getPathInfo() != null) {
+                String pathParam = request.getPathInfo().replace("/", "");
+                packageN.setId(Integer.parseInt(pathParam));
+                //List<ControlPoint> controlPoints = controlPointService.getControlPointById(Integer.parseInt(pathParam));
+                packageService.updatePackage(packageN);
+                processRequest(txtResponse, 200, response);
+            } else {
+
+                String result = "Es necesario el id del usuario para actualizarlo";
+                processRequest(result, 400, response);
+            }
+
         } catch (HttpException e) {
             processRequest(e.getMessage(), e.getHttpStatus(), response);
         } catch (Exception e) {

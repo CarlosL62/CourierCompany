@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="Proyecto1IPC2:war exploded" />
+    </artifacts-to-build>
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="37cc29d1-f43d-4b42-a27e-50811ebde0bf" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/repository/ClientRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/repository/ClientRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/repository/PackageRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/repository/PackageRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/repository/RoutesControlPointRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/repository/RoutesControlPointRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/service/ClientService.java" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/service/ClientService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/service/PackageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/service/PackageService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/service/RoutesControlPointService.java" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/service/RoutesControlPointService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/servlets/BillServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/servlets/BillServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/servlets/ClientServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/servlets/ClientServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/servlets/ControlPointServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/servlets/ControlPointServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/servlets/GlobalCostsServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/servlets/GlobalCostsServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/servlets/PackageServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/servlets/PackageServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/servlets/RouteServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/servlets/RouteServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/servlets/RoutesControlPointsServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/servlets/RoutesControlPointsServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/utils/ConverterJsonToObjectUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/src/main/java/com/ipc2/proyecto1/utils/ConverterJsonToObjectUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/repository/ClientRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/repository/ClientRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/repository/PackageRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/repository/PackageRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/repository/RoutesControlPointRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/repository/RoutesControlPointRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/service/ClientService.class" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/service/ClientService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/service/PackageService.class" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/service/PackageService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/service/RoutesControlPointService.class" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/service/RoutesControlPointService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/servlets/ClientServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/servlets/ClientServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/servlets/ControlPointServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/servlets/ControlPointServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/servlets/GlobalCostsServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/servlets/GlobalCostsServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/servlets/PackageServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/servlets/PackageServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/servlets/RouteServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/servlets/RouteServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/servlets/RoutesControlPointsServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/servlets/RoutesControlPointsServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/utils/ConverterJsonToObjectUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/backend/target/classes/com/ipc2/proyecto1/utils/ConverterJsonToObjectUtil.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CourierCompany/frontend/courierCompanyFrontend/components/reception/PackagesView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/frontend/courierCompanyFrontend/components/reception/PackagesView.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CourierCompany/frontend/courierCompanyFrontend/pages/reception/packages.vue" beforeDir="false" afterPath="$PROJECT_DIR$/CourierCompany/frontend/courierCompanyFrontend/pages/reception/packages.vue" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CompilerWorkspaceConfiguration">
+    <option name="MAKE_PROJECT_ON_SAVE" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="LogFilters">
+    <option name="FILTER_ERRORS" value="false" />
+    <option name="FILTER_WARNINGS" value="false" />
+    <option name="FILTER_INFO" value="true" />
+    <option name="FILTER_DEBUG" value="true" />
+    <option name="CUSTOM_FILTER" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2ekcJ5mVDdoMfCqUl7qumNfo1JE" />
+  <component name="ProjectViewState">
+    <option name="compactDirectories" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Tomcat Server.Tomcat 10.executor": "Run",
+    "Tomcat Server.Tomcat 9.0.87.executor": "Run",
+    "git-widget-placeholder": "packageLocation",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/home/carlos/NetBeansProjects/Proyecto1IPC2",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql_aurora_aws",
+      "mysql"
+    ]
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.ipc2.proyecto1.model" />
+      <recent name="com.ipc2.proyecto1.repository" />
+      <recent name="com.ipc2.proyecto1.service" />
+      <recent name="com.ipc2.proyecto1.servlets" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Tomcat 10" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 10" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
+      <option name="OPEN_IN_BROWSER" value="false" />
+      <option name="UPDATING_POLICY" value="restart-server" />
+      <deployment>
+        <artifact name="Proyecto1IPC2:war exploded">
+          <settings>
+            <option name="CONTEXT_PATH" value="/Proyecto1IPC2" />
+          </settings>
+        </artifact>
+      </deployment>
+      <server-settings>
+        <option name="BASE_DIRECTORY_NAME" value="dfc99a1e-2a13-4699-ad10-b10251194e4f" />
+      </server-settings>
+      <predefined_log_file enabled="true" id="Tomcat" />
+      <predefined_log_file enabled="true" id="Tomcat Catalina" />
+      <predefined_log_file id="Tomcat Manager" />
+      <predefined_log_file id="Tomcat Host Manager" />
+      <predefined_log_file id="Tomcat Localhost Access" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="45179" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Profile">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BuildArtifacts" enabled="true">
+          <artifact name="Proyecto1IPC2:war exploded" />
+        </option>
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-18abd8497189-intellij.indexing.shared.core-IU-241.14494.240" />
+        <option value="bundled-js-predefined-1d06a55b98c1-74d2a5396914-JavaScript-IU-241.14494.240" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="37cc29d1-f43d-4b42-a27e-50811ebde0bf" name="Changes" comment="" />
+      <created>1712451942540</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1712451942540</updated>
+      <workItem from="1712451943775" duration="5829000" />
+      <workItem from="1712517174108" duration="14275000" />
+      <workItem from="1712541760542" duration="4708000" />
+      <workItem from="1712551413716" duration="2633000" />
+      <workItem from="1712554996079" duration="2151000" />
+      <workItem from="1712559790020" duration="2471000" />
+      <workItem from="1713344600596" duration="1336000" />
+      <workItem from="1713390062322" duration="1042000" />
+      <workItem from="1713397979404" duration="638000" />
+      <workItem from="1713639774701" duration="8329000" />
+      <workItem from="1713679957555" duration="97000" />
+      <workItem from="1713680061853" duration="451000" />
+      <workItem from="1713744989439" duration="10630000" />
+      <workItem from="1713814846089" duration="1925000" />
+      <workItem from="1713904928533" duration="3291000" />
+      <workItem from="1713922812990" duration="8952000" />
+      <workItem from="1713988061896" duration="1841000" />
+      <workItem from="1713993645610" duration="1220000" />
+      <workItem from="1713999581310" duration="15717000" />
+      <workItem from="1714069975523" duration="1675000" />
+      <workItem from="1714085614086" duration="624000" />
+      <workItem from="1714087269127" duration="9000" />
+      <workItem from="1714165012935" duration="2292000" />
+      <workItem from="1714173165486" duration="5215000" />
+      <workItem from="1714235417300" duration="27201000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

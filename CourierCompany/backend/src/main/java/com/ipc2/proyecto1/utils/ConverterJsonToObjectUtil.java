@@ -8,15 +8,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ipc2.proyecto1.exceptions.BadRequestException;
 import com.ipc2.proyecto1.exceptions.InternalServerError;
-import com.ipc2.proyecto1.model.Bill;
-import com.ipc2.proyecto1.model.BillDetail;
-import com.ipc2.proyecto1.model.Client;
-import com.ipc2.proyecto1.model.ControlPoint;
-import com.ipc2.proyecto1.model.GlobalCost;
-import com.ipc2.proyecto1.model.PackageN;
-import com.ipc2.proyecto1.model.Route;
-import com.ipc2.proyecto1.model.RoutesControlPoint;
-import com.ipc2.proyecto1.model.User;
+import com.ipc2.proyecto1.model.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -79,14 +72,6 @@ public class ConverterJsonToObjectUtil {
         }
     }
     
-    public static RoutesControlPoint getRoutesControlPoint(String body) {
-        try {
-            return new ObjectMapper().readValue(body, RoutesControlPoint.class);
-        } catch (JsonProcessingException ex) {
-            throw new BadRequestException("json invalido");
-        }
-    }
-    
     public static String jsonFromControlPoints(List<ControlPoint> controlPoints) {
         try {
             return new ObjectMapper().writeValueAsString(controlPoints);
@@ -140,6 +125,46 @@ public class ConverterJsonToObjectUtil {
             return new ObjectMapper().readValue(body, BillDetail.class);
         } catch (JsonProcessingException ex) {
             throw new BadRequestException("json invalido");
+        }
+    }
+
+    public static String jsonFromDestinations(List<Destination> destinations) {
+        try {
+            return new ObjectMapper().writeValueAsString(destinations);
+        } catch (JsonProcessingException ex) {
+            throw new InternalServerError("error serializing packages");
+        }
+    }
+
+    public static Destination getDestination(String body) {
+        try {
+            return new ObjectMapper().readValue(body, Destination.class);
+        } catch (JsonProcessingException ex) {
+            throw new BadRequestException("json invalido");
+        }
+    }
+
+    public static String jsonFromClients(List<Client> clients) {
+        try {
+            return new ObjectMapper().writeValueAsString(clients);
+        } catch (JsonProcessingException ex) {
+            throw new InternalServerError("error serializing packages");
+        }
+    }
+
+    public static RoutesControlPoint getRoutesControlPoint(String body) {
+        try {
+            return new ObjectMapper().readValue(body, RoutesControlPoint.class);
+        } catch (JsonProcessingException ex) {
+            throw new BadRequestException("json invalido");
+        }
+    }
+
+    public static String jsonFromRoutesControlPoint(List<RoutesControlPoint> routesControlPoints) {
+        try {
+            return new ObjectMapper().writeValueAsString(routesControlPoints);
+        } catch (JsonProcessingException ex) {
+            throw new InternalServerError("error serializing packages");
         }
     }
 }   
