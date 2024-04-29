@@ -81,11 +81,11 @@
         </v-dialog>
       </v-toolbar>
     </template>
-    <template v-slot:item.actions="{ item }">
+    <!-- <template v-slot:item.actions="{ item }">
       <v-icon class="me-2" size="small" @click="editItem(item)">
         mdi-pencil
       </v-icon>
-    </template>
+    </template> -->
     <template v-slot:no-data>
       <v-btn color="primary" @click="initialize"> Reset </v-btn>
     </template>
@@ -127,7 +127,7 @@ const headers = [
   { title: "FacturaID", value: "id" },
   { title: "ClienteID", value: "clientId" },
   { title: "Fecha de facturación", value: "date" },
-  { title: "Acciones", value: "actions", sortable: false },
+  // { title: "Acciones", value: "actions", sortable: false },
 ];
 
 onMounted(() => {
@@ -183,11 +183,6 @@ async function getBillsData() {
 
 //Getting data from the API by id
 async function getBillDataById() {
-  if (!editedItem.value.id) {
-    console.log("No se ha seleccionado un Factura");
-    return;
-  }
-
   try {
     const response = await $api.get("/bills/" + editedItem.value.id);
 
@@ -223,7 +218,7 @@ async function createBillData() {
     }
     const response = await $api.post("/bills", {
       clientId: editedItem.value.clientId,
-      billDate: editedItem.value.date,
+      date: editedItem.value.date,
     });
 
     if (response.status === 200) {

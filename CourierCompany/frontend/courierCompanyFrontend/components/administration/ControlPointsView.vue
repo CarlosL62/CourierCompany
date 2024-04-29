@@ -256,11 +256,7 @@ async function getControlPointById() {
 async function createControlPointData() {
   console.log(editedItem.value);
   try {
-    if (
-      !editedItem.value.operatorId ||
-      !editedItem.value.packagesLimit ||
-      !editedItem.value.operationCost
-    ) {
+    if (!editedItem.value.operatorId || !editedItem.value.packagesLimit) {
       console.error("Hay campos vacíos");
       infoSnackbar.value.message = "Hay campos vacíos";
       infoSnackbar.value.color = "warning";
