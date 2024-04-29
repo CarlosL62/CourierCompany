@@ -5,7 +5,10 @@
 package com.ipc2.proyecto1.service;
 
 import com.ipc2.proyecto1.model.ControlPoint;
+import com.ipc2.proyecto1.model.GlobalCost;
 import com.ipc2.proyecto1.repository.ControlPointRepository;
+import com.ipc2.proyecto1.repository.GlobalCostRepository;
+
 import java.util.List;
 
 /**
@@ -13,15 +16,21 @@ import java.util.List;
  * @author carlos
  */
 public class ControlPointService {
-    
+
+    private final GlobalCostRepository globalCostRepository;
     private final ControlPointRepository controlPointRepository;
 
     public ControlPointService() {
         this.controlPointRepository = new ControlPointRepository();
+        this.globalCostRepository = new GlobalCostRepository();
     }
     
     public void addControlPoint(ControlPoint controlPoint){
-        
+        if (controlPoint.getOperationCost() == 0) {
+            //Global Cost Data
+            List<GlobalCost> globalCost = globalCostRepository.getGlobalCost();
+            controlPoint.setOperationCost(globalCost.get(0).getControlPointCost());
+        }
         controlPointRepository.addControlPoint(controlPoint);
     }
     

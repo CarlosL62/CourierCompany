@@ -7,10 +7,12 @@ package com.ipc2.proyecto1.servlets;
 import com.ipc2.proyecto1.exceptions.HttpException;
 import com.ipc2.proyecto1.model.Bill;
 import com.ipc2.proyecto1.model.BillDetail;
+import com.ipc2.proyecto1.model.BillDetailsByBillId;
 import com.ipc2.proyecto1.service.BillService;
 import com.ipc2.proyecto1.utils.ConverterJsonToObjectUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.stream.Collectors;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -25,7 +27,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet(name = "BillServlet", urlPatterns = {"/bills/*"})
 public class BillServlet extends HttpServlet {
 
-    private BillService billService;
+    private final BillService billService;
 
     public BillServlet() {
         this.billService = new BillService();
@@ -63,6 +65,48 @@ public class BillServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        try {
+
+            if (request.getPathInfo() != null) {
+                String pathParam = request.getPathInfo().replace("/", "");
+
+                if (pathParam.equals("bill_details")) {
+                    String txtResponse = "OK BillDetails";
+                    int billIdParam = Integer.parseInt(request.getParameter("bill_id"));
+                    BillDetail billDetail = new BillDetail();
+                    billDetail.setBillId(billIdParam);
+
+                    //Send it to service
+                    try {
+                        List<BillDetailsByBillId> billDetailsByBillIds = billService.getBillDetailsById(billDetail);
+                        String result = ConverterJsonToObjectUtil.jsonFromBillDetailsById(billDetailsByBillIds);
+                        processRequest(result, 200, response);
+                    } catch (HttpException e) {
+                        processRequest(e.getMessage(), e.getHttpStatus(), response);
+                    } catch (Exception e) {
+                        processRequest(e.getMessage(), 500, response);
+                    }
+                    return;
+                }
+
+                List<Bill> bills = billService.getBillById(Integer.parseInt(pathParam));
+                if (bills.isEmpty()) {
+                    processRequest("No se encontró la factura", 404, response);
+                    return;
+                }
+                String result = ConverterJsonToObjectUtil.jsonFromBills(bills);
+                processRequest(result, 200, response);
+            } else {
+                List<Bill> bills = billService.getBills();
+                String result = ConverterJsonToObjectUtil.jsonFromBills(bills);
+                processRequest(result, 200, response);
+            }
+        } catch (HttpException e) {
+            processRequest(e.getMessage(), e.getHttpStatus(), response);
+        } catch (Exception e) {
+            processRequest(e.getMessage(), 500, response);
+        }
+
     }
 
     /**
@@ -81,15 +125,15 @@ public class BillServlet extends HttpServlet {
 
             if (request.getPathInfo() != null) {
                 String pathParam = request.getPathInfo().replace("/", "");
-                if (pathParam.equals("bill_detail")) {
-                    
-                    String txtResponse = "OK BillDetail";
-                    String billDetailBody = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-                    System.out.println("BillDetail body:" + billDetailBody);
+                if (pathParam.equals("bill_details")) {
+                    String txtResponse = "OK BillDetails";
 
-                    //Convert body into an object
-                    BillDetail billDetail = ConverterJsonToObjectUtil.getBillDetail(billDetailBody);
-                    System.out.println(billDetail.getBillId());
+                    int billIdParam = Integer.parseInt(request.getParameter("bill_id"));
+                    int packageIdParam = Integer.parseInt(request.getParameter("package_id"));
+
+                    BillDetail billDetail = new BillDetail();
+                    billDetail.setBillId(billIdParam);
+                    billDetail.setPackageId(packageIdParam);
 
                     //Send it to service
                     try {
@@ -100,9 +144,13 @@ public class BillServlet extends HttpServlet {
                     } catch (Exception e) {
                         processRequest(e.getMessage(), 500, response);
                     }
+                    return;
                 }
             }
+        } catch (HttpException e) {
+            processRequest(e.getMessage(), e.getHttpStatus(), response);
         } catch (Exception e) {
+            processRequest(e.getMessage(), 500, response);
         }
 
         String txtResponse = "OK Bill";
