@@ -7,6 +7,7 @@ package com.ipc2.proyecto1.utils;
 import com.ipc2.proyecto1.exceptions.InternalServerError;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -80,6 +81,31 @@ public class DataBaseUtils {
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);
+            
+            List<Object[]> result=new ArrayList<>();
+            while ( rs.next() ) {
+                Object[] row=new Object[fieldNames.size()];
+                for(int i=0;i<fieldNames.size();i++){
+                   row[i]=rs.getObject(fieldNames.get(i));
+                }
+                result.add(row);
+            }
+            conn.close();
+            return result;
+        } catch (Exception e) {
+            throw new InternalServerError("error getting values from data base");
+        }
+    }
+    
+    public List<Object[]> select(String query, List<String> fieldNames, List<Object> parameters) {
+        System.out.println("select query: "+query);
+        Connection conn = this.connect();
+        try {
+            PreparedStatement stmt = conn.prepareStatement(query);
+            for(int i=0;i<parameters.size();i++){
+                stmt.setObject(i + 1, parameters.get(i));
+            }
+            ResultSet rs = stmt.executeQuery();
             
             List<Object[]> result=new ArrayList<>();
             while ( rs.next() ) {

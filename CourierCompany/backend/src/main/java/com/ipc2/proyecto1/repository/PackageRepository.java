@@ -87,9 +87,10 @@ public class PackageRepository {
     }
     
     public List<PackageN> getPackageByStatus(String status) {
-        String query = String.format("SELECT %s FROM Packages WHERE PackageStatus = \"%s\";", String.join(",", fieldNames), status);
-        
-        List<Object[]> result = this.dataBaseUtils.select(query, fieldNames);
+        String query = String.format("SELECT %s FROM Packages WHERE PackageStatus = ?;", String.join(",", fieldNames));
+        List<Object> parameters = new ArrayList<>();
+        parameters.add(status);
+        List<Object[]> result = this.dataBaseUtils.select(query, fieldNames, parameters);
 
         List<PackageN> packages = new ArrayList();
         for (Object[] row : result) {
